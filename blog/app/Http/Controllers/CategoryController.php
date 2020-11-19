@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+    function list(){
+        
+        // return view("Category/list",["categories"=>Category::all()]);
+        // echo("category"+Category::all());
+    }
+}
