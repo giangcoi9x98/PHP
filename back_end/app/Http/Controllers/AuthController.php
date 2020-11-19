@@ -19,6 +19,7 @@ class AuthController extends Controller
 
        
      try{
+         
         $credentials = [
             'username' => request('username'),
             'password' => request('password')
@@ -36,7 +37,7 @@ class AuthController extends Controller
      }catch(Exception $e){
         return response()->json([
             'message' => 'Bad request!',
-            $credentials
+            
             ], 400); 
      }
     }

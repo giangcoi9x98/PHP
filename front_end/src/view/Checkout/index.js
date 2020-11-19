@@ -75,7 +75,8 @@ class Checkout extends Component {
         type,
         price,
       });
-        if (res.data.status === 200) {
+      console.log(res)
+        if (res.data.status === 201) {
             localStorage.removeItem('order');
             window.location='/order/cart'
         }

@@ -18,7 +18,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link, withRouter } from 'react-router-dom';
-import API from '../../api/api';
+import API from '../../api';
 import orderLocalStorage from '../../utils/orderLocalStorage';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { connect, useSelector } from 'react-redux';
@@ -122,13 +122,12 @@ const SearchAppBar = (props) => {
   const handleAccount = () => {
     props.history.push('/me');
   };
-  const Url = 'http://localhost:8000/api/me';
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await API.get(Url);
-        if (result.status === 200) {
+        const result = await API.account.getProfile();
+        if (result.status === true) {
           handleIsLogin();
         }
         if (result.data.data.roles === 'ADMIN') {
@@ -179,6 +178,7 @@ const SearchAppBar = (props) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <MenuItem onClick={()=>props.history.push('/order/detail')}>Thông tin đơn hàng</MenuItem>
       <Link
         onClick={handleAccount}
         style={{ textDecoration: 'none', color: 'black' }}
@@ -205,7 +205,7 @@ const SearchAppBar = (props) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton aria-label="" color="inherit">
           <Badge badgeContent={0} color="secondary">
             <ShoppingCartIcon></ShoppingCartIcon>
@@ -220,7 +220,7 @@ const SearchAppBar = (props) => {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"

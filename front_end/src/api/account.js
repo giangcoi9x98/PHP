@@ -59,7 +59,7 @@ export const updateAccount = async ({
   phone,
   address,
   password,
-  state,
+  
 }) => {
   try {
     const res = API.put('/account', {
@@ -73,7 +73,7 @@ export const updateAccount = async ({
     });
     return {
       status: true,
-      data:res
+      data:res.data
     }
   } catch (e) {
     return {

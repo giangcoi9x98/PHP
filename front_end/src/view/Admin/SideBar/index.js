@@ -99,6 +99,7 @@ import SideBar from '../../SideBar';
               <Typography style={{ paddingLeft: 5 }}>Products</Typography>
             </Button>
             <Button
+              onClick={()=>this.props.history.push('/me')}
               style={{
                 width: '100%',
                 textTransform: 'none',

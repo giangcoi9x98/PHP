@@ -40,7 +40,8 @@ class AccountController extends Controller
       User::where('username',$user['username'])->update($request->all());
         
         return response()->json([
-            'message'=>"Success !"
+            'message'=>"Success !",
+            
         ],200);
     }catch(Exception $e){
         return response()->json('Bad Request !',400);

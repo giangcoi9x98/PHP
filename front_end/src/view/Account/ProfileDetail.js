@@ -20,20 +20,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ProfileDetails(props) {
-  const { user } = props;
+  const { user, isUpdate } = props;
   const classes = useStyles();
-  const [values, setValues] = useState({
-    firstName: user.lastname,
-    lastName: user.firstname,
-    email: user.email,
-    phone: user.phone,
-    state: user.address,
-    address: user.address,
-    password: '',
-  });
+  const [values, setValues] = useState({});
+  const [update, setupdate] = useState(false);
   useEffect(() => {
     setValues(user);
-  }, [user]);
+  }, [user,update]);
 
   const handleChange = (event) => {
     setValues({
@@ -42,29 +35,35 @@ function ProfileDetails(props) {
     });
   };
   const handleUpdate = async () => {
-    const firstname = user.firstName;
-    const lastname = user.lastName;
-    const email = user.email;
-    const phone = user.phone;
-    const address = user.address;
-    const password = user.password;
+    const firstname = values.firstname;
+    const lastname = values.lastname;
+    const email = values.email;
+    const phone = values.phone;
+    const address = values.address;
+    const password = values.password;
+
     try {
-       const res= await api.account.updateAccount({
+      const res = await api.account.updateAccount({
         firstname,
         lastname,
         email,
         phone,
         address,
         password,
-       });
-        console.log(res);
-        if (res.status) {
-           // window.location='/me'
-        }
+      });
+      console.log(res);
+      if (res.status) {
+        setupdate(true);
+      }
     } catch (e) {
       console.log(e);
     }
   };
+  //   const checkIsUpdate = () => {
+  //     if (isUpdate) {
+  //       window.location = '/me';
+  //     }
+  //   };
   return (
     <form autoComplete="off" noValidate className={clsx(classes.root)}>
       <Card>
@@ -75,33 +74,29 @@ function ProfileDetails(props) {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="firstName"
+                helperText="First Name"
+                name="firstname"
                 onChange={handleChange}
-                required
-                value={values.firstName}
+                value={values.firstname}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Last name"
-                name="lastName"
+                helperText="Last Name"
+                name="lastname"
                 onChange={handleChange}
-                required
-                value={values.lastName}
+                value={values.lastname}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Email Address"
                 name="email"
+                helperText="Email"
                 onChange={handleChange}
-                required
                 value={values.email}
                 variant="outlined"
               />
@@ -109,7 +104,7 @@ function ProfileDetails(props) {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Phone Number"
+                helperText="Phone Number"
                 name="phone"
                 onChange={handleChange}
                 type="number"
@@ -120,19 +115,20 @@ function ProfileDetails(props) {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Country"
-                name="country"
+                name="address"
+                helperText="Address"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={values.address}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
+                type="password"
                 fullWidth
-                label="New Password"
-                name="state"
+                helperText="New Password"
+                name="password"
                 onChange={handleChange}
                 value={values.password}
                 variant="outlined"
@@ -142,8 +138,12 @@ function ProfileDetails(props) {
         </CardContent>
         <Divider />
         <Box display="flex" justifyContent="flex-end" p={2}>
-          <Button
-            onClick={handleUpdate}
+                  <Button
+                      
+            onClick={async() => {
+              await handleUpdate();
+              isUpdate(true);
+            }}
             color="primary"
             variant="contained"
           >
