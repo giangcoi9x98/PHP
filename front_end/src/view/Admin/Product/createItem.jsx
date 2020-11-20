@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import api from '../../../api';
+import noti from '../../../component/Notificator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,9 +63,14 @@ export default function Items() {
         specifications,
       });
       console.log(res);
-      console.log(product);
+      if (res.data) {
+        noti.success('Tạo mới thành công!');
+      } else {
+        noti.error('Tạo mới thất bại!');
+      }
     } catch (e) {
-      console.log(e);
+      noti.error('Tạo mới thất bại!');
+      console.log(e.response);
     }
   };
   const hanldeChange = (e) => {

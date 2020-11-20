@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import api from '../../../api'
+import api from '../../../api';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
   Avatar,
@@ -33,9 +33,7 @@ const Items = ({ className, customers }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [value,setValue]=useState(5)
-
-
+  const [value, setValue] = useState(5);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -47,10 +45,9 @@ const Items = ({ className, customers }) => {
   const handleDelete = async (id) => {
     const res = await api.account.deleteAcount(id);
     if (res.status) {
-      window.location='/customer'
+      window.location = '/customer';
     }
-
-  }
+  };
 
   return (
     <Card className={clsx(classes.root, className)}>
@@ -65,6 +62,7 @@ const Items = ({ className, customers }) => {
                 <TableCell>Address</TableCell>
                 <TableCell>Phone</TableCell>
                 <TableCell>Registration date</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -97,7 +95,7 @@ const Items = ({ className, customers }) => {
                     {moment(customer.created_at).format('DD/MM/YYYY')}
                   </TableCell>
                   <TableCell>
-                    <Button onClick={ ()=>handleDelete(customer.username)}>
+                    <Button onClick={() => handleDelete(customer.username)}>
                       <DeleteIcon></DeleteIcon>
                     </Button>
                   </TableCell>
@@ -107,7 +105,6 @@ const Items = ({ className, customers }) => {
           </Table>
         </Box>
       </PerfectScrollbar>
-    
     </Card>
   );
 };

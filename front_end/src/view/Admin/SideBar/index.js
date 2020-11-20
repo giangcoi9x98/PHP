@@ -13,6 +13,7 @@ import {
   ListItem,
   Icon,
 } from '@material-ui/core';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import {
   AlertCircle as AlertCircleIcon,
   AlertOctagon,
@@ -24,10 +25,10 @@ import {
   UserPlus as UserPlusIcon,
   Users as UsersIcon,
 } from 'react-feather';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
 import SideBar from '../../SideBar';
 
- class index extends Component {
+class index extends Component {
   render() {
     return (
       <Box
@@ -70,10 +71,10 @@ import SideBar from '../../SideBar';
               href="/"
             >
               <BarChartIcon size={20}></BarChartIcon>
-              <Typography style={{ paddingLeft: 5 }}>Home</Typography>
+              <Typography style={{ paddingLeft: 5 }}>Trang chủ</Typography>
             </Button>
             <Button
-              onClick={()=>this.props.history.push('/customer')}
+              onClick={() => this.props.history.push('/customer')}
               style={{
                 width: '100%',
                 textTransform: 'none',
@@ -83,10 +84,10 @@ import SideBar from '../../SideBar';
               }}
             >
               <UsersIcon size={20}></UsersIcon>
-              <Typography style={{ paddingLeft: 5 }}>Customers</Typography>
+              <Typography style={{ paddingLeft: 5 }}>Khách hàng</Typography>
             </Button>
             <Button
-              onClick={()=>this.props.history.push('/product')}
+              onClick={() => this.props.history.push('/product')}
               style={{
                 width: '100%',
                 textTransform: 'none',
@@ -96,10 +97,10 @@ import SideBar from '../../SideBar';
               }}
             >
               <ShoppingBagIcon size={20}></ShoppingBagIcon>
-              <Typography style={{ paddingLeft: 5 }}>Products</Typography>
+              <Typography style={{ paddingLeft: 5 }}>Sản phẩm</Typography>
             </Button>
             <Button
-              onClick={()=>this.props.history.push('/me')}
+              onClick={() => this.props.history.push('/me')}
               style={{
                 width: '100%',
                 textTransform: 'none',
@@ -109,9 +110,10 @@ import SideBar from '../../SideBar';
               }}
             >
               <UserIcon size={20}></UserIcon>
-              <Typography style={{ paddingLeft: 5 }}>Account</Typography>
+              <Typography style={{ paddingLeft: 5 }}>Tài khoản</Typography>
             </Button>
             <Button
+              onClick={()=>this.props.history.push('/order')}
               style={{
                 width: '100%',
                 textTransform: 'none',
@@ -120,10 +122,11 @@ import SideBar from '../../SideBar';
                 color: 'GrayText',
               }}
             >
-              <SettingsIcon size={20}></SettingsIcon>
-              <Typography style={{ paddingLeft: 5 }}>Settings</Typography>
+              <ShoppingCartIcon size={20}></ShoppingCartIcon>
+              <Typography style={{ paddingLeft: 5 }}>Đơn hàng</Typography>
             </Button>
             <Button
+              onClick={()=>this.props.history.push('/not-found')}
               style={{
                 width: '100%',
                 textTransform: 'none',
@@ -133,7 +136,7 @@ import SideBar from '../../SideBar';
               }}
             >
               <AlertCircleIcon size={20}></AlertCircleIcon>
-              <Typography style={{ paddingLeft: 5 }}>Errors</Typography>
+              <Typography style={{ paddingLeft: 5 }}>Lỗi</Typography>
             </Button>
           </List>
         </Box>
@@ -142,4 +145,4 @@ import SideBar from '../../SideBar';
   }
 }
 
-export default withRouter(index)
+export default withRouter(index);

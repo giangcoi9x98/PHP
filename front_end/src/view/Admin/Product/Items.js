@@ -16,6 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { IconButton } from 'material-ui';
 import api from '../../../api'
+import noti from '../../../component/Notificator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,16 +35,27 @@ const useStyles = makeStyles((theme) => ({
 const ProductCard = ({ className, product, ...rest }) => {
   const classes = useStyles();
     const handleDelete = async (id) => {
-        await api.product.deleteProduct(id)
-        window.location='/product'
+      try {
+        const res= await api.product.deleteProduct(id)
+        if (res.data) {
+          noti.success('Xoá thành công !')
+          window.location='/product'
+
+        } else {
+          noti.error('Xoá thất bại!')
+        }
+      } catch (e) {
+        noti.error('xoá thất bại !')
+      }
+      
     }
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardContent>
         <div style={{display:'flex',justifyContent:'flex-end'}}>
-          <Button>
+          {/* <Button>
             <SettingsIcon></SettingsIcon>
-          </Button>
+          </Button> */}
           <Button onClick={()=>handleDelete(product.productId)}>
             <DeleteIcon></DeleteIcon>
           </Button>

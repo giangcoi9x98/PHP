@@ -17,6 +17,7 @@ function counts(state = [], action) {
         ...state,
         total:state.total-1
       }
+    
     default:
       return state;
   }

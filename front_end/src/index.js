@@ -1,18 +1,38 @@
 import React from 'react';
-import './index.css'
+import './index.css';
 import ReactDOM from 'react-dom';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { SnackbarProvider } from 'notistack'
+import App from './App';
+import { SnackbarProvider } from 'notistack';
+import { Provider } from 'react-redux';
+import { IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { Notificator } from './component/Notificator';
 import store from './store/index';
-import {Provider} from 'react-redux'
+
+const notistackRef = React.createRef();
+const onClickDismiss = (key) => () => {
+  notistackRef.current.closeSnackbar(key);
+};
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <SnackbarProvider
+        maxSnack={5}
+        ref={notistackRef}
+        action={(key) => (
+          <IconButton onClick={onClickDismiss(key)}>
+            <CloseIcon />
+          </IconButton>
+        )}
+      >
+        <Notificator />
+        <App />
+      </SnackbarProvider>
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

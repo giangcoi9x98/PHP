@@ -45,6 +45,15 @@ const updateCountOrder = (orders) => {
     return 0;
   }
 };
+const deleteOrder = (id) => {
+  let items =JSON.parse(localStorage.getItem("order"));
+  items = items.filter((item) => item.id !== id);
+  localStorage.setItem("order", JSON.stringify(items));
+  if (items.length === 0) {
+    localStorage.removeItem("order");
+  }
+
+}
 const updateOrder = (originalArray) => {
   const newArray = updateCountOrder(originalArray);
   localStorage.setItem('order', JSON.stringify(newArray), { expires: 30 });
@@ -70,4 +79,5 @@ export default {
   getDataToCart,
   updateCountOrder,
   updateOrder,
+  deleteOrder,
 };

@@ -34,7 +34,7 @@ const Account = () => {
     };
     const isUpdate = async () => {
       if (isUpdated) {
-        window.location = '/me';
+         //window.location = '/me';
       }
     };
     isUpdate()

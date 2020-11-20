@@ -13,6 +13,10 @@ import Checkout from './view/Checkout/index';
 import Customer from './view/Admin/Customer/index';
 import Product from './view/Admin/Product/index';
 import CreateProduct from './view/Admin/Product/createProduct';
+import Orders from './view/Admin/Order/index';
+import OrderUpdate from './view/Admin/Order/Detail';
+import Search from './view/Search/index';
+import SearchLayout from './layout/SearchLayout'
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -30,6 +34,26 @@ export default class App extends Component {
           path: '/order/checkout',
         },
         {
+          component: Order,
+          layout: DefaultLayout,
+          path: `/order/detail`,
+        },
+        {
+          component: OrderUpdate,
+          layout: DefaultLayout,
+          path: `/order/update/:id`,
+        },
+        {
+          component: Cart,
+          layout: DefaultLayout,
+          path: `/order/cart`,
+        },
+        {
+          component: Orders,
+          layout: DefaultLayout,
+          path: `/order`,
+        },
+        {
           component: Product,
           layout: DefaultLayout,
           path: '/product',
@@ -37,7 +61,7 @@ export default class App extends Component {
         {
           component: CreateProduct,
           layout: DefaultLayout,
-          path:'/product/create'
+          path: '/product/create',
         },
         {
           component: Customer,
@@ -49,21 +73,20 @@ export default class App extends Component {
           layout: User,
           path: `/me`,
         },
-
+        {
+          component: Search,
+          layout:SearchLayout,
+          path:'/search'
+        },
         {
           component: Detail,
           layout: DefaultLayout,
           path: `/detail/:id`,
         },
         {
-          component: Order,
+          component: NotFound,
           layout: DefaultLayout,
-          path: `/order`,
-        },
-        {
-          component: Cart,
-          layout: DefaultLayout,
-          path: `/order/cart`,
+          path: '/not-found',
         },
       ],
     };

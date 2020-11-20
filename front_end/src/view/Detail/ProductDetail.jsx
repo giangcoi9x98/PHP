@@ -12,22 +12,23 @@ import {
   Box,
 } from '@material-ui/core';
 import { addProduct, addCount } from '../../store/actions/countAction';
-import {showModal}from '../../store/actions/modalAction'
+import { showModal } from '../../store/actions/modalAction';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import Axios from 'axios';
 import API from '../../api/api';
 import React, { Component } from 'react';
-import { useHistory ,withRouter} from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 import SearchAppBar from '../utils/SearchAppBar';
 import { connect } from 'react-redux';
 import Cookie from 'js-cookie';
+import moment from 'moment';
+import noti from '../../component/Notificator';
 
 class ProductDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       key: [],
-
       listOrderProduct: [],
       isLogin: false,
       count: 1,
@@ -85,17 +86,23 @@ class ProductDetail extends Component {
   };
   handleOrder = async () => {
     if (this.state.isLogin) {
-      await this.setState({
-        orderProduct: {
-          id: this.props.propsDetail.id,
-          count: this.state.count,
-        },
-      });
-      this.props.addCount(this.state.count);
-      this.props.addProduct(this.state.orderProduct);
+      try {
+        await this.setState({
+          orderProduct: {
+            id: this.props.propsDetail.id,
+            count: this.state.count,
+          },
+        });
+        this.props.addCount(this.state.count);
+        this.props.addProduct(this.state.orderProduct);
+
+        noti.success('Đặt mua thành công!');
+      } catch (e) {
+        noti.error('Đặt mua thất bại');
+      }
     } else {
       console.log(this.props);
-       await this.props.showModal()
+      await this.props.showModal();
     }
   };
   async componentDidMount() {
@@ -124,7 +131,6 @@ class ProductDetail extends Component {
       <Grid
         container
         style={{
-         
           paddingTop: '2%',
           height: '100%',
           justifyContent: 'center',
@@ -165,18 +171,33 @@ class ProductDetail extends Component {
                     justifyContent: 'center',
                     alignContent: 'center',
                     display: 'flex',
+                    height: '100%',
+                    flexDirection: 'column',
                   }}
                 >
                   <img
                     src={this.props.propsDetail.detailProduct.imageUrl}
                     style={{ height: '80%', width: '80%' }}
                   ></img>
+                  <div style={{ padding: '3%' }}>
+                    <Typography>-CPU : Intel Core i5-10210U</Typography>
+                    <Typography>-Màn hình :14" TN (1920 x 1080)</Typography>
+                    <Typography>-RAM : 1 x 8GB DDR4 2666MHz</Typography>
+                    <Typography>
+                      -Đồ hoạ : Đồ họa: Intel UHD Graphics
+                    </Typography>
+                    <Typography>-Lưu trữ :256GB SSD M.2 NVMe /</Typography>
+                    <Typography>-Hệ điều hành : Free DOS</Typography>
+                    <Typography>-Pin :3 cell 48 Wh Pin liền</Typography>
+                    <Typography>-Khối lượng:1.6 kg</Typography>
+                  </div>
                 </CardMedia>
               </Hidden>
             </div>
           </div>
           <div
             style={{
+              justifyContent: 'center',
               alignItems: 'center',
               display: 'flex',
               width: '40%',
@@ -290,7 +311,7 @@ const MapDicpatchToProps = (dispatch) => {
   return {
     addProduct: (product) => dispatch(addProduct(product)),
     addCount: (count) => dispatch(addCount(count)),
-    showModal:()=>dispatch(showModal())
+    showModal: () => dispatch(showModal()),
   };
 };
 const MapStateToProps = (state) => {
@@ -299,4 +320,6 @@ const MapStateToProps = (state) => {
     product: state.product,
   };
 };
-export default withRouter(connect(MapStateToProps, MapDicpatchToProps)(ProductDetail));
+export default withRouter(
+  connect(MapStateToProps, MapDicpatchToProps)(ProductDetail),
+);

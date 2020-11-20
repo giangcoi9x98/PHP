@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Item from './Items';
+import { Box} from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import api from '../../../api';
+import { Pagination } from '@material-ui/lab';
+
 
 class index extends Component {
   constructor(props) {
@@ -31,6 +34,14 @@ class index extends Component {
     return (
       <div style={{paddingTop:'1%'}}>
         <Item customers={this.state.listAccount}></Item>
+        <Box mt={3} style={{ justifyContent: 'center', display: 'flex' }}>
+          <Pagination
+            color="primary"
+            count={Math.ceil(this.state.total / this.state.size)}
+            size="small"
+            onChange={this.handlePageChange}
+          ></Pagination>
+        </Box>
       </div>
     );
   }

@@ -7,10 +7,11 @@ import {
   TextField,
   Button,
   ButtonGroup,
+  Box,
 } from '@material-ui/core';
 import React, { Component, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { updateOrder } from '../../store/actions/countAction';
+import { updateOrder, deleteOrder } from '../../store/actions/countAction';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, connect } from 'react-redux';
 import { decrement, increment } from '../../store/actions/countAction';
@@ -29,7 +30,7 @@ const useStyle = makeStyles((theme) => ({
   detail: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     flexDirection: 'column',
     width: '40%',
   },
@@ -68,6 +69,10 @@ const useStyle = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
+  },
+  delete: {
+    color: 'rgb(27, 168, 255)',
+    cursor: 'pointer',
   },
 }));
 
@@ -108,13 +113,17 @@ function CartItem(props) {
       });
     }
   };
+  const deleteOrder = async () => {
+   
+   // await props.deleteOrder(orderProduct.id);
+   // window.location('/order/cart')
+  };
   const updateOrder = async () => {
     console.log(orderProduct);
-    props.updateOrder(orderProduct);
-    console.log('props',props)
+    await props.updateOrder(orderProduct);
+    console.log('props', props);
   };
   useEffect(() => {
-    
     (async () => {
       await updateOrder();
     })();
@@ -128,6 +137,12 @@ function CartItem(props) {
         </div>
         <div className={classes.detail}>
           <Typography>{props.orders.display}</Typography>
+          <Box
+          onClick={ deleteOrder}
+          >
+            <Typography
+            className={classes.delete}  >Xoá sản phẩm</Typography>
+          </Box>
         </div>
         <div className={classes.order}>
           <div className={classes.price}>
@@ -150,8 +165,7 @@ function CartItem(props) {
                         count: orderProduct.count - 1,
                       });
                       props.decrement();
-                      totalBill(-props.orders.priceOut)
-
+                      totalBill(-props.orders.priceOut);
                     }
                   }}
                 >
@@ -168,7 +182,7 @@ function CartItem(props) {
                       count: orderProduct.count + 1,
                     });
                     props.increment();
-                    totalBill(props.orders.priceOut)
+                    totalBill(props.orders.priceOut);
                   }}
                 >
                   +
@@ -186,6 +200,7 @@ const mapDispatchToProps = (dispatch) => {
     updateOrder: (product) => dispatch(updateOrder(product)),
     increment: () => dispatch(increment()),
     decrement: () => dispatch(decrement()),
+    deleteOrder: (id) => dispatch(deleteOrder(id)),
   };
 };
 export default withRouter(connect(null, mapDispatchToProps)(CartItem));

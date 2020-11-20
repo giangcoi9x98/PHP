@@ -33,7 +33,7 @@ import Cookie from 'js-cookie';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { showModal, closeModal } from '../../store/actions/modalAction';
-
+import noti from '../../component/Notificator'
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -57,10 +57,12 @@ class SignIn extends Component {
         login: true,
       });
       if (data.status) {
+       noti.success('Đăng nhập thành công!')
         window.location = '/';
         this.props.closeModal();
       }
     } catch (err) {
+      noti.error('Đăng nhập thất bại !')
       console.log(err);
     }
   };

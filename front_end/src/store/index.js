@@ -10,7 +10,8 @@ const initialState = {
   },
   product: {
     listOrderProduct: orderLocalStorage.getOrder(),
-    total:orderLocalStorage.getTotalCount()
+    total: orderLocalStorage.getTotalCount(),
+    key:''
   },
   modal: {
     isBodySignIn:true,

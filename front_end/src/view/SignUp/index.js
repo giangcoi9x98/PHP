@@ -24,6 +24,7 @@ import Axios from 'axios';
 import api from '../../api';
 import { connect, useDispatch } from 'react-redux';
 import { showSignInModal } from '../../store/actions/modalAction';
+import noti from '../../component/Notificator';
 
 function SignUp() {
   const [isEmpty, setIsEmpty] = useState(true);
@@ -48,9 +49,10 @@ function SignUp() {
       console.log('signup', data.data.status);
       if (data.data.status === 200) {
         await setIsSignUp(true);
-        alert('Tao moi thanh cong !');
+       noti.success('Tạo mới thành công!')
       }
     } catch (err) {
+      noti.error('Tạo mới thất bại')
       console.log(err);
     }
   };

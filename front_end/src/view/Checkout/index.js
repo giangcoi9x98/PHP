@@ -15,6 +15,7 @@ import { withRouter } from 'react-router-dom';
 import Item from './Item';
 import { connect } from 'react-redux';
 import api from '../../api/index';
+import noti from '../../component/Notificator';
 
 class Checkout extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Checkout extends Component {
       note: '',
       type: 'home',
       totalBill: 0,
+      display:''
     };
   }
   handleChangeOption = (event) => {
@@ -42,6 +44,7 @@ class Checkout extends Component {
     const listOrders = [];
     let newObj = {};
     let total = 0;
+    let display = '';
     this.props.product.listOrderProduct.map((obj) =>
       fetch(` http://127.0.0.1:8000/api/product/${obj.id}`)
         .then((res) => res.json())
@@ -49,10 +52,12 @@ class Checkout extends Component {
           (result) => {
             newObj = { ...result, orderCount: obj.count };
             listOrders.push(newObj);
+            display+=` ${result.display} số lượng ${obj.count} chiếc `
             total += newObj.priceOut * obj.count;
             this.setState({
               listOrders: listOrders,
               totalBill: total,
+              display:display
             });
           },
           (err) => {
@@ -67,6 +72,7 @@ class Checkout extends Component {
     const address = this.state.address;
     const type = this.state.type;
     const price = this.state.totalBill;
+    const display = this.state.display;
     try {
       const res = await api.order.createOrder({
         orders,
@@ -74,15 +80,19 @@ class Checkout extends Component {
         address,
         type,
         price,
+        display
       });
       console.log(res)
-        if (res.data.status === 201) {
+      if (res.data.status === 201) {
+            noti.success('Đặt mua thành công!')
             localStorage.removeItem('order');
             window.location='/order/cart'
         }
     } catch (e) {
+      noti.error('Đặt mua thất bại! ')
         console.log(e);
     }
+    console.log(this.state.display)
   };
   async componentDidMount() {
     await this.fetchData();

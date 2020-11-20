@@ -9,7 +9,14 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Home as HomeIcon } from '@material-ui/icons';
-import { Button, Drawer, Link as LogOut, Modal,Card,Box } from '@material-ui/core';
+import {
+  Button,
+  Drawer,
+  Link as LogOut,
+  Modal,
+  Card,
+  Box,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Cookie from 'js-cookie';
 import SearchIcon from '@material-ui/icons/Search';
@@ -27,8 +34,11 @@ import {
   closeModal,
   showSignInModal,
   showSignUpModal,
-} from '../../store/actions/modalAction';import SignIn from '../SignIn/index';
+} from '../../store/actions/modalAction';
+import {addKey} from '../../store/actions/countAction'
+import SignIn from '../SignIn/index';
 import SignUp from '../SignUp/index';
+import api from '../../api';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -95,19 +105,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchAppBar = (props) => {
-  const { isShowSideBar, isAdmin } = props;
+  const { isShowSideBar, isAdmin ,key} = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [isLogin, setIsLogin] = useState('Sign In');
+  const [isLogin, setIsLogin] = useState('Đăng nhập');
   const modal = useSelector((state) => state.modal);
-  const [total, setTotal] = useState(props.counts.total)
+  const [total, setTotal] = useState(props.counts.total);
+  const [keyword, setkeyword] = useState('');
   const handleIsLogin = () => {
-    setIsLogin('Sign Up');
+    setIsLogin('Đăng xuất');
   };
 
   const handleSignUp = () => {
-    if (isLogin === 'Sign In') {
+    if (isLogin === 'Đăng nhập') {
       props.showModal();
     } else {
       Cookie.remove('token');
@@ -122,7 +133,11 @@ const SearchAppBar = (props) => {
   const handleAccount = () => {
     props.history.push('/me');
   };
-
+  const handleSearch = async () => {
+    await props.addKey(keyword);
+    props.history.push('/search')
+  };
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -140,8 +155,8 @@ const SearchAppBar = (props) => {
     fetchData();
   }, []);
   const backToHome = () => {
-    window.location='/'
-  }
+    window.location = '/';
+  };
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -167,6 +182,11 @@ const SearchAppBar = (props) => {
   const handleClickSignUp = async () => {
     await props.showSignUpModal();
   };
+  const handleChange = (e) => {
+    setkeyword(e.target.value);
+    console.log(keyword);
+  };
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -178,12 +198,14 @@ const SearchAppBar = (props) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={()=>props.history.push('/order/detail')}>Thông tin đơn hàng</MenuItem>
+      <MenuItem onClick={() => props.history.push('/order/detail')}>
+        Thông tin đơn hàng
+      </MenuItem>
       <Link
         onClick={handleAccount}
         style={{ textDecoration: 'none', color: 'black' }}
       >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Thông tin cá nhân</MenuItem>
       </Link>
       <Link
         onClick={handleSignUp}
@@ -205,22 +227,6 @@ const SearchAppBar = (props) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {/* <MenuItem>
-        <IconButton aria-label="" color="inherit">
-          <Badge badgeContent={0} color="secondary">
-            <ShoppingCartIcon></ShoppingCartIcon>
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={13} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -234,21 +240,21 @@ const SearchAppBar = (props) => {
       </MenuItem>
     </Menu>
   );
-  let  bodyModal='',
-  colorLogIn='',
-  colorBoderLogin='',
-  colorSignUp='',
-  colorBoderSignUp='';
- 
+  let bodyModal = '',
+    colorLogIn = '',
+    colorBoderLogin = '',
+    colorSignUp = '',
+    colorBoderSignUp = '';
+
   const isBody = props.modal.isBodySignIn;
   if (isBody === true) {
-    bodyModal = (<SignIn></SignIn>);
+    bodyModal = <SignIn></SignIn>;
     colorSignUp = '';
     colorBoderSignUp = 'rgb(255, 255, 255)';
     colorLogIn = 'rgb(27, 168, 255)';
     colorBoderLogin = 'rgb(27, 168, 255)';
   } else {
-    bodyModal = (<SignUp></SignUp>);
+    bodyModal = <SignUp></SignUp>;
     colorLogIn = '';
     colorBoderLogin = 'rgb(255, 255, 255)';
     colorSignUp = 'rgb(27, 168, 255)';
@@ -321,22 +327,19 @@ const SearchAppBar = (props) => {
             <MenuIcon />
           </IconButton>
 
-         
-            <IconButton
-              classes={classes.menuButton}
-              color="inherit"
-              edge="start"
+          <IconButton
+            classes={classes.menuButton}
+            color="inherit"
+            edge="start"
             aria-label="open drawer"
             onClick={backToHome}
-            >
-              <HomeIcon style={{ color: 'white' }}></HomeIcon>
-            </IconButton>
-          
+          >
+            <HomeIcon style={{ color: 'white' }}></HomeIcon>
+          </IconButton>
+
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
             <InputBase
+              onChange={handleChange}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
@@ -345,16 +348,19 @@ const SearchAppBar = (props) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          <div>
+            <IconButton
+              onClick={handleSearch}
+              style={{ color: '#fff' }}
+            >
+              <SearchIcon></SearchIcon>
+            </IconButton>
+          </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="" color="inherit">
               <Badge badgeContent={props.counts.total} color="secondary">
                 <ShoppingCartIcon onClick={handleShowOrders}></ShoppingCartIcon>
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={1} color="secondary">
-                <NotificationsIcon />
               </Badge>
             </IconButton>
             <IconButton
@@ -401,6 +407,7 @@ const mapDispatchToProps = (dispatch) => {
     closeModal: () => dispatch(closeModal()),
     showSignInModal: () => dispatch(showSignInModal()),
     showSignUpModal: () => dispatch(showSignUpModal()),
+    addKey: (key) => dispatch(addKey(key)),
   };
 };
 export default withRouter(

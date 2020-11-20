@@ -71,6 +71,7 @@ export const createProduct = async ({
       data: res,
     };
   } catch (e) {
+    console.log(e.response.status)
     return {
       data: e,
       status: false,

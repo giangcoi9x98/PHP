@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import { VpnLock } from '@material-ui/icons';
 import api from '../../api';
+import noti from '../../component/Notificator'
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -54,16 +55,15 @@ function ProfileDetails(props) {
       console.log(res);
       if (res.status) {
         setupdate(true);
+        noti.success('Cập nhật thành công!')
+
       }
     } catch (e) {
+      noti.error('Cập nhật không thành công!')
       console.log(e);
     }
   };
-  //   const checkIsUpdate = () => {
-  //     if (isUpdate) {
-  //       window.location = '/me';
-  //     }
-  //   };
+
   return (
     <form autoComplete="off" noValidate className={clsx(classes.root)}>
       <Card>
@@ -142,7 +142,7 @@ function ProfileDetails(props) {
                       
             onClick={async() => {
               await handleUpdate();
-              isUpdate(true);
+              await isUpdate(true);
             }}
             color="primary"
             variant="contained"
