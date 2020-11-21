@@ -1,4 +1,5 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useEffect, useState } from 'react';
+import {useSelector} from 'react-redux';
 import {
   TextField,
   Button,
@@ -13,6 +14,7 @@ import Cookie from 'js-cookie';
 import { showModal, closeModal } from '../../store/actions/modalAction';
 import {useDispatch} from "react-redux";
 import actions from '../../store/actions';
+import noti from '../../component/Notificator';
 
 const SignIn = (props) => {
 // class SignIn extends Component {
@@ -22,8 +24,23 @@ const SignIn = (props) => {
    const [token, setToken] = useState(Cookie.get('token'));
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
+   const respLogin = useSelector((state) => state?.signInReducer);
+   useEffect(() => {
+     console.log(respLogin);
+     try{
+     Cookie.set('token', respLogin.data.data.token, { expires: 365 });
+     if (respLogin.data.status) {
+       console.log('accept');
+       noti.success('Đăng nhập thành công!');
+       window.location = '/';
+       dispatch(actions.closeModal());
+   }}
+   catch{
+
+   }
+     }, [respLogin]);
   const handleSignIn = (ur, pw) => {
-    dispatch(actions.on_SignInAction({ur, pw}));
+    dispatch(actions.on_SignInAction({username: ur, password: pw}));
   };
 
     if (login) {
@@ -126,10 +143,4 @@ const SignIn = (props) => {
         );
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: () => dispatch(showModal()),
-    closeModal: () => dispatch(closeModal()),
-  };
-};
 export default withRouter(SignIn);

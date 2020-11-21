@@ -3,7 +3,7 @@ import constants from '../../constants';
 const initState = {
     data: null,
 }
-const SignReduxcer = (state = initState, action) => {
+const signInReducer = (state = initState, action) => {
     switch (action.type){
         case constants.SIGN_IN:
             return{
@@ -14,4 +14,4 @@ const SignReduxcer = (state = initState, action) => {
             return state;
     }
 }
-export default SignReduxcer;
+export default signInReducer;
