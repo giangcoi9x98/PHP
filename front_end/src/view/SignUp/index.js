@@ -47,7 +47,7 @@ function SignUp() {
         lastname: lastName,
       });
       console.log('signup', data.data.status);
-      if (data.data.status === 200) {
+      if (data.data.status === 201) {
         await setIsSignUp(true);
        noti.success('Tạo mới thành công!')
       }
