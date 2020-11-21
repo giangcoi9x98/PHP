@@ -15,8 +15,12 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { IconButton } from 'material-ui';
-import api from '../../../api'
+import api from '../../../api';
 import noti from '../../../component/Notificator';
+import { withRouter } from 'react-router-dom';
+import Items from './createItem';
+import { addId } from '../../../store/actions/countAction';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,31 +36,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProductCard = ({ className, product, ...rest }) => {
+const ProductCard = (props) => {
+  const { className, product} = props;
   const classes = useStyles();
-    const handleDelete = async (id) => {
-      try {
-        const res= await api.product.deleteProduct(id)
-        if (res.data) {
-          noti.success('Xoá thành công !')
-          window.location='/product'
-
-        } else {
-          noti.error('Xoá thất bại!')
-        }
-      } catch (e) {
-        noti.error('xoá thất bại !')
+  const handleDelete = async (id) => {
+    try {
+      const res = await api.product.deleteProduct(id);
+      if (res.status) {
+        noti.success('Xoá thành công !');
+        window.location = '/product';
+      } else {
+        noti.error('Xoá thất bại!');
       }
-      
+    } catch (e) {
+      noti.error('xoá thất bại !');
     }
+  };
+  const handleUpdate = async () => {
+    await props.addId(product.productId);
+    await props.history.push(`/update/product?id=${product.productId}`)
+  };
   return (
-    <Card className={clsx(classes.root, className)} {...rest}>
+    <Card
+      onClick={()=>props.history.push(`/detail/${product.productId}`)}
+      className={clsx(classes.root, className)}>
       <CardContent>
-        <div style={{display:'flex',justifyContent:'flex-end'}}>
-          {/* <Button>
-            <SettingsIcon></SettingsIcon>
-          </Button> */}
-          <Button onClick={()=>handleDelete(product.productId)}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Button>
+            <SettingsIcon onClick={handleUpdate}></SettingsIcon>
+          </Button>
+          <Button onClick={() => handleDelete(product.productId)}>
             <DeleteIcon></DeleteIcon>
           </Button>
         </div>
@@ -86,9 +95,17 @@ const ProductCard = ({ className, product, ...rest }) => {
   );
 };
 
-ProductCard.propTypes = {
-  className: PropTypes.string,
-  product: PropTypes.object.isRequired,
-};
 
-export default ProductCard;
+const mapStateToProps = (state) => {
+  return {
+    id: state.product,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addId: (id) => dispatch(addId(id)),
+  };
+};
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ProductCard),
+);

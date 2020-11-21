@@ -30,8 +30,8 @@ const getDataToCart = (orders) => {
 const updateCountOrder = (orders) => {
   try {
     let data = orders,
-      hash = Object.create(null),
-      result = [];
+      result = [],
+      hash = Object.create(null);
 
     data.forEach(function (obj) {
       if (!hash[obj.id]) {
@@ -45,15 +45,27 @@ const updateCountOrder = (orders) => {
     return 0;
   }
 };
-const deleteOrder = (id) => {
-  let items =JSON.parse(localStorage.getItem("order"));
-  items = items.filter((item) => item.id !== id);
-  localStorage.setItem("order", JSON.stringify(items));
-  if (items.length === 0) {
-    localStorage.removeItem("order");
-  }
+const deleteOrder = (orders, id) => {
+  try {
+    let data = orders,
+      key=id,
+      result = [],
+      hash = Object.create(null);
 
-}
+    data.forEach(function (obj) {
+      if (!hash[obj.id]) {
+        hash[obj.id] = { id: obj.id, count: obj.count };
+        if (hash[obj.id].id !== key) {
+          result.push(hash[obj.id])
+          console.log(key);
+        }
+        }
+    });
+    return result;
+  } catch {
+    return 0;
+  }
+};
 const updateOrder = (originalArray) => {
   const newArray = updateCountOrder(originalArray);
   localStorage.setItem('order', JSON.stringify(newArray), { expires: 30 });

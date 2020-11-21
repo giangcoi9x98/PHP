@@ -67,10 +67,9 @@ export const getById = async (id) => {
     };
   }
 };
-export const updateOrder = async ({ orderId, status }) => {
+export const updateOrder = async ( orderId,{ status }) => {
   try {
-    const res = await API.put(`order`, {
-      orderId: orderId,
+    const res = await API.put(`order/${orderId}`, {
       status: status,
     });
     return {

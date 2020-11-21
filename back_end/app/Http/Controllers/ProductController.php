@@ -44,16 +44,34 @@ class ProductController extends Controller
             $product->specifications=$input['specifications'];
             $product->save();
 
-            return response()->json('OK',201);
+            return response()->json('ok',201);
                
 
         }catch(Exception $e){
             return response()->json(['Message'=>'Bad request!'],400);
-            echo($input);
+           
         }
    }
-   function update(Request $request,Product $product){
+   function update($id,Request $request){
+        try{
+            $input=$request->all();
+            Validator::make($input,[
+                'display'=>['required'],
+                'priceOut'=>['required'],
+                'priceIn'=>['required'],
+                'imageUrl'=>['required'],
+                'provider'=>['required'],
+                'instock'=>['required'],
+                
+               
+            ]);
+            Product::where('productId',$id)
+            ->update($input);
+            return response()->json(['Messafe'=>'Updated'],200);
 
+        }catch(Exception $e){
+            return response()->json('Bad request!',400);
+        }
    }
    function delete($id){
        Product::where('productId',$id)->delete();

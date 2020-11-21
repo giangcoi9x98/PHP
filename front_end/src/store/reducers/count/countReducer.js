@@ -1,4 +1,4 @@
-import { ADD_COUNT ,INCREMENT,DECREMENT} from '../../actions/countAction';
+import { ADD_COUNT ,INCREMENT,DECREMENT, SUB_COUNT} from '../../actions/countAction';
 
 function counts(state = [], action) {
   switch (action.type) {
@@ -17,7 +17,12 @@ function counts(state = [], action) {
         ...state,
         total:state.total-1
       }
-    
+    case SUB_COUNT: {
+      return {
+        ...state,
+        total:state.total-action.payload
+      }
+    }
     default:
       return state;
   }

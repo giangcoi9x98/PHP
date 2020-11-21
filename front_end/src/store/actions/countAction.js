@@ -5,10 +5,18 @@ export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 export const ADD_KEY = 'ADD_KEY';
 export const DELETE_ORDER = 'DELETE_ORDER';
+export const SUB_COUNT = 'SUB_COUNT';
+export const ADD_ID = 'ADD_ID';
 export function addProduct(product) {
   return {
     type: ADD_PRODUCT,
     payload: product,
+  };
+}
+export function addId(id) {
+  return {
+    type: ADD_ID,
+    payload: id,
   };
 }
 export function addKey(key) {
@@ -23,6 +31,13 @@ export function addCount(count) {
     payload: count,
   };
 }
+export function subCount(count) {
+  return {
+    type: SUB_COUNT,
+    payload: count,
+  };
+}
+
 export function updateOrder(product) {
   return {
     type: UPDATE_ORDER,
@@ -32,8 +47,8 @@ export function updateOrder(product) {
 export function deleteOrder(product) {
   return {
     type: DELETE_ORDER,
-    paload:product
-  }
+    payload: product,
+  };
 }
 export function increment() {
   return {

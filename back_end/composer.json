@@ -16,6 +16,7 @@
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.1",
+        "mehdi-fathi/eloquent-filter": "1.6.9",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {

@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 import { TextField, Button } from '@material-ui/core';
 import api from '../../../api';
 import noti from '../../../component/Notificator';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2%',
@@ -21,37 +21,35 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: '1%',
     backgroundColor: '#3f51b5',
+    color: '#fff',
   },
   textColor: {
     color: '#fff',
   },
 }));
-
-export default function Items() {
+function Item(props) {
+  const { product } = props;
   const classes = useStyles();
-  const [product, setProduct] = useState({
-    display: '',
-    url_key: '',
-    description: '',
-    priceOut: 0,
-    priceIn: 0,
-    imageUrl: '',
-    provider: '',
-    instock: 0,
-    specifications: '',
-  });
-  const handleCreate = async () => {
+  const [dataUpdate, setdataUpdate] = useState(product);
+  const hanldeChange = (e) => {
+    setdataUpdate({
+      ...product,
+      [e.target.name]: e.target.value,
+    });
+    console.log(dataUpdate);
+  };
+  const handleUpdate = async (id) => {
     try {
-      const display = product.display;
-      const url_key = product.url_key;
-      const description = product.description;
-      const priceOut = parseInt(product.priceOut);
-      const priceIn = parseInt(product.priceIn);
-      const imageUrl = product.imageUrl;
-      const provider = product.provider;
-      const instock = parseInt(product.instock);
-      const specifications = product.specifications;
-      const res = await api.product.createProduct({
+     ;
+      const display = dataUpdate.display;
+      const url_key = dataUpdate.url_key;
+      const description = dataUpdate.description;
+      const priceOut = parseInt(dataUpdate.priceOut);
+      const priceIn = parseInt(dataUpdate.priceIn);
+      const imageUrl = dataUpdate.imageUrl;
+      const provider = dataUpdate.provider;
+      const instock = parseInt(dataUpdate.instock);
+      const res = await api.product.updateProduct(id, {
         display,
         url_key,
         description,
@@ -60,36 +58,31 @@ export default function Items() {
         imageUrl,
         provider,
         instock,
-        specifications,
       });
-      console.log(res);
-      if (res.data) {
-        noti.success('Tạo mới thành công!');
+       console.log(dataUpdate);
+      if (res.status) {
+        console.log(res);
+        noti.success('Cập nhật thành công !')  
       } else {
-        noti.error('Tạo mới thất bại!');
+          noti.error('Cập nhật thất bại')
       }
     } catch (e) {
-      noti.error('Tạo mới thất bại!');
-      console.log(e.response);
+      console.log(e);
     }
   };
-  const hanldeChange = (e) => {
-    setProduct({
-      ...product,
-      [e.target.name]: e.target.value,
-    });
-  };
- useEffect(() => {
-    
- }, [product.imageUrl])
+  useEffect(() => {
+    setdataUpdate(product);
+  }, [product]);
+
   return (
-    <div className={classes.root}>
+    <div>
       <div>
         <TextField
           name="display"
           onChange={hanldeChange}
           id="standard-full-width"
-          label="Display"
+          helperText="Display"
+          value={dataUpdate.display}
           style={{ margin: 8 }}
           fullWidth
           margin="normal"
@@ -98,15 +91,17 @@ export default function Items() {
           onChange={hanldeChange}
           type="number"
           name="priceIn"
+          value={dataUpdate.priceIn}
           margin="normal"
-          label="PriceIn"
+          helperText="PriceIn"
           id="margin-none"
           className={classes.textField}
         />
         <TextField
           onChange={hanldeChange}
           type="number"
-          label="PriceOut"
+          helperText="PriceOut"
+          value={dataUpdate.priceOut}
           name="priceOut"
           id="margin-dense"
           className={classes.textField}
@@ -115,7 +110,8 @@ export default function Items() {
         <TextField
           onChange={hanldeChange}
           type="number"
-          label="Instock"
+          value={dataUpdate.instock}
+          helperText="Instock"
           id="margin-normal"
           name="instock"
           className={classes.textField}
@@ -126,8 +122,9 @@ export default function Items() {
         <TextField
           onChange={hanldeChange}
           id="filled-full-width"
-          label="Description"
+          helperText="Description"
           name="description"
+          value={dataUpdate.description}
           style={{ margin: 8 }}
           fullWidth
           margin="normal"
@@ -136,16 +133,18 @@ export default function Items() {
         <TextField
           onChange={hanldeChange}
           margin="normal"
-          label="ImageUrl"
+          helperText="ImageUrl"
           name="imageUrl"
+          value={dataUpdate.imageUrl}
           id="filled-margin-none"
           className={classes.textField}
           variant="filled"
         />
         <TextField
           onChange={hanldeChange}
-          label="Provider"
+          helperText="Provider"
           name="provider"
+          value={dataUpdate.provider}
           id="filled-margin-dense"
           className={classes.textField}
           margin="normal"
@@ -153,38 +152,25 @@ export default function Items() {
         />
         <TextField
           onChange={hanldeChange}
-          label="Url_Key"
+          helperText="Url_Key"
           name="url_key"
+          value={dataUpdate.url_key}
           id="filled-margin-normal"
           className={classes.textField}
           margin="normal"
           variant="filled"
         />
         <div>
-          <img
-            src={product.imageUrl}
-         
-          ></img>
+          <img src={dataUpdate.imageUrl}></img>
         </div>
         <div>
-          <TextField
-            onChange={hanldeChange}
-            name="specifications"
-            id="outlined-full-width"
-            label="Specifications"
-            style={{ margin: 8 }}
-            fullWidth
-            margin="normal"
-            riant="outlined"
-          />
+          <Button onClick={()=>handleUpdate(dataUpdate.productId)} className={classes.button}>
+            Lưu thay đổi
+          </Button>
         </div>
-      </div>
-
-      <div className={classes.button}>
-        <Button onClick={handleCreate} className={classes.textColor}>
-          Tạo sản phẩm
-        </Button>
       </div>
     </div>
   );
 }
+
+export default withRouter(Item);

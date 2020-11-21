@@ -57,7 +57,7 @@ class Cart extends Component {
       style: 'currency',
       currency: 'VND',
     }).format(this.state.totalBill);
-    if (this.props.product.listOrderProduct.length === 0) {
+    if (typeof(this.props.product.listOrderProduct) === 'undefined'||this.props.product.listOrderProduct.length===0) {
       return (
         <div
           style={{

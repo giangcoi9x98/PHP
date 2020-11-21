@@ -11,7 +11,8 @@ const initialState = {
   product: {
     listOrderProduct: orderLocalStorage.getOrder(),
     total: orderLocalStorage.getTotalCount(),
-    key:''
+    key: '',
+    id:'',
   },
   modal: {
     isBodySignIn:true,

@@ -14,7 +14,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { updateOrder, deleteOrder } from '../../store/actions/countAction';
 import { withRouter } from 'react-router-dom';
 import { useDispatch, connect } from 'react-redux';
-import { decrement, increment } from '../../store/actions/countAction';
+import {
+  decrement,
+  increment,
+  subCount,
+} from '../../store/actions/countAction';
+import noti from '../../component/Notificator';
 const useStyle = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -114,9 +119,10 @@ function CartItem(props) {
     }
   };
   const deleteOrder = async () => {
-   
-   // await props.deleteOrder(orderProduct.id);
-   // window.location('/order/cart')
+    await props.subCount(orderProduct.count)
+    await props.deleteOrder(orderProduct.id);
+    noti.success('Xoá thành công')
+    window.location = '/order/cart';
   };
   const updateOrder = async () => {
     console.log(orderProduct);
@@ -137,11 +143,8 @@ function CartItem(props) {
         </div>
         <div className={classes.detail}>
           <Typography>{props.orders.display}</Typography>
-          <Box
-          onClick={ deleteOrder}
-          >
-            <Typography
-            className={classes.delete}  >Xoá sản phẩm</Typography>
+          <Box onClick={deleteOrder}>
+            <Typography className={classes.delete}>Xoá sản phẩm</Typography>
           </Box>
         </div>
         <div className={classes.order}>
@@ -201,6 +204,7 @@ const mapDispatchToProps = (dispatch) => {
     increment: () => dispatch(increment()),
     decrement: () => dispatch(decrement()),
     deleteOrder: (id) => dispatch(deleteOrder(id)),
+    subCount: (count) => dispatch(subCount(count)),
   };
 };
 export default withRouter(connect(null, mapDispatchToProps)(CartItem));

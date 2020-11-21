@@ -350,8 +350,9 @@ const SearchAppBar = (props) => {
           </div>
           <div>
             <IconButton
+              size="medium"
               onClick={handleSearch}
-              style={{ color: '#fff' }}
+              style={{ color: '#fff' ,height:'100%',width:'100%'}}
             >
               <SearchIcon></SearchIcon>
             </IconButton>

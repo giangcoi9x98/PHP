@@ -17,6 +17,7 @@ class Order extends Model
         'note',
         'type',
         'address',
+        'display'
     ];
     
 }

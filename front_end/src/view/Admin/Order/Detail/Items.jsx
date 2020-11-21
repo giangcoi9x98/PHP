@@ -39,29 +39,27 @@ function Items(props) {
   const classes = useStyles();
   const handleDelete = async (id) => {
     try {
-        const res = await api.order.deleteOrder(id);
-      
-      if (res.status) {
-        noti.success('Xoá thành công!')
+      const res = await api.order.deleteOrder(id);
 
-           window.location='/order'
-        }
+      if (res.status) {
+        noti.success('Xoá thành công!');
+
+        window.location = '/order';
+      }
     } catch (e) {
       console.log(e);
     }
   };
-  const handleUpdate = async () => {
-    const orderId = orderList.orderId;
+  const handleUpdate = async (id) => {
     const status = orderList.status;
     try {
-      const res = await api.order.updateOrder({
-        orderId,
+      const res = await api.order.updateOrder(id, {
         status,
       });
       console.log(res);
       if (res.status) {
-        noti.success('Cập nhật thành công!')
-       // window.location = '/order';
+        noti.success('Cập nhật thành công!');
+        // window.location = '/order';
       }
     } catch (e) {
       console.log(e);
@@ -113,10 +111,10 @@ function Items(props) {
             </TableCell>
             <TableCell align="center">
               <div className={classes.button}>
-                <Button onClick={()=>handleDelete(orderList.orderId)}>
+                <Button onClick={() => handleDelete(orderList.orderId)}>
                   <DeleteIcon></DeleteIcon>
                 </Button>
-                <Button onClick={handleUpdate}>
+                <Button onClick={() => handleUpdate(orderList.orderId)}>
                   <UpdateIcon></UpdateIcon>
                 </Button>
               </div>

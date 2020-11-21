@@ -9,28 +9,31 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Button,TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import UpdateIcon from '@material-ui/icons/Update';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addId } from '../../../store/actions/countAction';
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
   button: {
-    display:'flex'
-  }
+    display: 'flex',
+  },
 });
 
- function Items(props) {
-  const { orders} = props;
+function Items(props) {
+  const { orders } = props;
   const [orderList, setorderList] = useState([]);
-  const [status,setStatus]=useState(orders.status)
+  const [status, setStatus] = useState(orders.status);
   useEffect(() => {
     setorderList(orders);
     console.log(orders);
     console.log(orderList);
   }, [orders]);
- 
+
   const classes = useStyles();
   console.log(orders);
   return (
@@ -57,7 +60,7 @@ const useStyles = makeStyles({
                 {moment(orderList.created_at).format('DD/MM/YYYY')}
               </TableCell>
               <TableCell align="right">{orderList.username}</TableCell>
-              <TableCell align="left">{orderList.display}</TableCell>
+              <TableCell style={{width:'40%'}} align="center">{orderList.display}</TableCell>
               <TableCell align="right">
                 {new Intl.NumberFormat('de-DE', {
                   style: 'currency',
@@ -66,20 +69,22 @@ const useStyles = makeStyles({
               </TableCell>
               <TableCell align="right">
                 <TextField
-                 
                   onChange={(e) => {
-                   console.log(e.target);
-                 }}
-                  value={ orderList.status}
+                    console.log(e.target);
+                  }}
+                  value={orderList.status}
                 ></TextField>
               </TableCell>
               <TableCell align="center">
-                <div className={classes.button} >
-                
-                <Button onClick={()=>props.history.push(`/order/update/${orderList.orderId}`)}>
-                  <UpdateIcon></UpdateIcon>
-                </Button>
-               </div>
+                <div className={classes.button}>
+                  <Button
+                    onClick={() =>
+                      props.history.push(`/order/update/${orderList.orderId}`)
+                    }
+                  >
+                    <UpdateIcon></UpdateIcon>
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}
@@ -89,4 +94,10 @@ const useStyles = makeStyles({
   );
 }
 
-export default withRouter(Items);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addId: (id) => dispatch(addId(id)),
+  };
+};
+
+export default withRouter(connect(null,mapDispatchToProps)(Items));

@@ -17,6 +17,7 @@ import Orders from './view/Admin/Order/index';
 import OrderUpdate from './view/Admin/Order/Detail';
 import Search from './view/Search/index';
 import SearchLayout from './layout/SearchLayout'
+import UpdateProduct from './view/Admin/Product/updateProduct'
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -62,6 +63,11 @@ export default class App extends Component {
           component: CreateProduct,
           layout: DefaultLayout,
           path: '/product/create',
+        },
+        {
+          component: UpdateProduct,
+          layout: DefaultLayout,
+          path:'/update/:id'
         },
         {
           component: Customer,

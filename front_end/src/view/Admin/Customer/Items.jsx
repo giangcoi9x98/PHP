@@ -57,11 +57,12 @@ const Items = ({ className, customers }) => {
             <TableHead>
               <TableRow>
                 <TableCell padding="checkbox"></TableCell>
-                <TableCell>Name</TableCell>
+                <TableCell>Tên tài khoản</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Phone</TableCell>
-                <TableCell>Registration date</TableCell>
+                <TableCell>Trạng thái</TableCell>
+                <TableCell>Địa chỉ</TableCell>
+                <TableCell>Số điện thoại</TableCell>
+                <TableCell>Ngày tạo tài khoản</TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>
@@ -87,8 +88,9 @@ const Items = ({ className, customers }) => {
                     </Box>
                   </TableCell>
                   <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer.roles}</TableCell>
                   <TableCell>
-                    {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
+                    {customer.address}
                   </TableCell>
                   <TableCell>{customer.phone}</TableCell>
                   <TableCell>

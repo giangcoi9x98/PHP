@@ -67,14 +67,14 @@ function ProfileDetails(props) {
   return (
     <form autoComplete="off" noValidate className={clsx(classes.root)}>
       <Card>
-        <CardHeader subheader="The information can be edited" title="Profile" />
+        <CardHeader subheader="Bạn có thể chỉnh sửa thông tin cá nhân" title="Thông tin cá nhân" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="First Name"
+                helperText="Tên"
                 name="firstname"
                 onChange={handleChange}
                 value={values.firstname}
@@ -84,7 +84,7 @@ function ProfileDetails(props) {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Last Name"
+                helperText="Họ"
                 name="lastname"
                 onChange={handleChange}
                 value={values.lastname}
@@ -104,7 +104,7 @@ function ProfileDetails(props) {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                helperText="Phone Number"
+                helperText="Số điện thoại"
                 name="phone"
                 onChange={handleChange}
                 type="number"
@@ -116,7 +116,7 @@ function ProfileDetails(props) {
               <TextField
                 fullWidth
                 name="address"
-                helperText="Address"
+                helperText="Địa chỉ"
                 onChange={handleChange}
                 required
                 value={values.address}
@@ -127,7 +127,7 @@ function ProfileDetails(props) {
               <TextField
                 type="password"
                 fullWidth
-                helperText="New Password"
+                helperText="Mật khẩu mới"
                 name="password"
                 onChange={handleChange}
                 value={values.password}
@@ -147,7 +147,7 @@ function ProfileDetails(props) {
             color="primary"
             variant="contained"
           >
-            Save details
+            Lưu thay đổi
           </Button>
         </Box>
       </Card>

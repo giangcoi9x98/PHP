@@ -78,3 +78,28 @@ export const createProduct = async ({
     };
   }
 };
+export const updateProduct = async (id, {
+  display, priceIn, priceOut, instock,
+  description,imageUrl,provider,url_key
+}) => {
+  try {
+    const res = await API.put(`/product/${id}`, {
+      display: display,
+      url_key: url_key,
+      description: description,
+      priceOut: priceOut,
+      priceIn: priceIn,
+      imageUrl: imageUrl,
+      provider: provider,
+      instock: instock,
+    });
+    return {
+      status: true,
+      data:res.data
+    }
+  } catch (e) {
+    return {
+      status:false
+    }
+    }
+}

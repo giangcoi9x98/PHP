@@ -33,7 +33,7 @@ import Cookie from 'js-cookie';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { showModal, closeModal } from '../../store/actions/modalAction';
-import noti from '../../component/Notificator'
+import noti from '../../component/Notificator';
 class SignIn extends Component {
   constructor(props) {
     super(props);
@@ -52,17 +52,19 @@ class SignIn extends Component {
         password: this.state.password,
       });
 
-      Cookie.set('token', data.data.token, { expires: 365 });
-      await this.setState({
-        login: true,
-      });
+      // await this.setState({
+      //   login: true,
+      // });
       if (data.status) {
-       noti.success('Đăng nhập thành công!')
+        Cookie.set('token', data.data.token, { expires: 365 });
+        noti.success('Đăng nhập thành công!');
         window.location = '/';
         this.props.closeModal();
+      } else {
+        noti.error('Đăng nhập thất bại !');
       }
     } catch (err) {
-      noti.error('Đăng nhập thất bại !')
+      //noti.error('Đăng nhập thất bại !');
       console.log(err);
     }
   };
@@ -80,7 +82,6 @@ class SignIn extends Component {
     return (
       <Card
         style={{
-          
           height: '100%',
           display: 'flex',
           alignItems: 'center',

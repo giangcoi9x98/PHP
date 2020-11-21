@@ -29,6 +29,7 @@ class OrderController extends Controller
             $order->note=$request->input('note');
             $order->type=$request->input('type');
             $order->address=$request->input('address');
+            $order->display=$request->input('display');
             $order->save();
             $orderProducts=[];
             foreach ($cart  as $key=>$value) {
@@ -55,7 +56,21 @@ class OrderController extends Controller
     function getById($id){
         return Order::where('orderId',$id)->first();
     }
-    function delete(Order $order){
-        
+    function getAllByUsername($username){
+        return Order::where('username',$username)->get();
+    }
+    function update($id,Request $request){
+        try{
+            
+            Order::where('orderId',$id)
+            ->update($request->all());
+            return response()->json(['message:Updated'],200);
+        }catch(Exception $e){
+            return response()->json('Bad request',400);
+        }
+    }
+    function delete($id){
+        Order::where('orderId',$id)->delete();
+        return response()->json('Order deleted successfully!',200);
     }
 }
