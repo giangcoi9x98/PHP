@@ -1,174 +1,147 @@
-import React, { Component } from 'react';
+import React, {Component, useState} from 'react';
 import {
-  Paper,
-  withStyles,
-  Grid,
   TextField,
   Button,
   Card,
-  CardHeader,
   CardContent,
   CardActions,
-  Link as Direct,
-  FormControlLabel,
-  Checkbox,
-  Dialog,
-  Modal,
   Typography,
-  Drawer,
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link, Redirect } from 'react-router-dom';
-import {
-  DialerSip,
-  Face,
-  Fingerprint,
-  Lock,
-  HighlightOff,
-  Clear,
-} from '@material-ui/icons';
 import api from '../../api';
 import Cookie from 'js-cookie';
-import axios from 'axios';
-import { connect } from 'react-redux';
 import { showModal, closeModal } from '../../store/actions/modalAction';
+import {useDispatch} from "react-redux";
 
-class SignIn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sign: false,
-      login: false,
-      token: Cookie.get('token'),
-      username: '',
-      password: '',
-    };
-  }
-  handleSignIn = async () => {
+const SignIn = (props) => {
+// class SignIn extends Component {
+   const dispatch = useDispatch();
+   const [sign, setSign] = useState(false);
+   const [login, setLogin] = useState(false);
+   const [token, setToken] = useState(Cookie.get('token'));
+   const [username, setUsername] = useState('');
+   const [password, setPassword] = useState('');
+  const handleSignIn = async () => {
     try {
       const data = await api.auth.logIn({
-        username: this.state.username,
-        password: this.state.password,
+        username: username,
+        password: password,
       });
 
       Cookie.set('token', data.data.token, { expires: 365 });
-      await this.setState({
-        login: true,
-      });
+      setLogin(true);
       if (data.status) {
         window.location = '/';
-        this.props.closeModal();
+        dispatch(closeModal())
       }
     } catch (err) {
       console.log(err);
     }
   };
-  handleChange = (e) => {
+  const handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
 
-  render() {
-    if (this.state.login) {
+    if (login) {
       return <div>{}</div>;
     }
-    const { classes } = this.props;
-    return (
-      <Card
-        style={{
-          
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'column',
-        }}
-      >
-        <CardContent
-          style={{
-            width: '90%',
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <div
+    else{
+        return (
+          <Card
             style={{
-              width: '100%',
-              marginTop: '4%',
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Typography
-              style={{
-                width: '20%',
-                display: 'flex',
-                justifyContent: 'flex-start',
-              }}
-            >
-              Tài khoản
-            </Typography>
-            <TextField
-              style={{ width: '80%' }}
-              variant="outlined"
-              label="Tài khoản"
-              name="username"
-              onChange={this.handleChange}
-            ></TextField>
-          </div>
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              marginTop: '4%',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Typography
-              style={{
-                width: '20%',
-                display: 'flex',
-                justifyContent: 'flex-start',
-              }}
-            >
-              Mật khẩu
-            </Typography>
 
-            <TextField
-              style={{ width: '80%' }}
-              variant="outlined"
-              label="Mật khẩu"
-              name="password"
-              onChange={this.handleChange}
-              type="password"
-            ></TextField>
-          </div>
-        </CardContent>
-        <CardActions
-          style={{
-            marginTop: '3%',
-            width: '90%',
-            display: 'flex',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button
-            style={{ width: '80%', display: 'flex' }}
-            variant="contained"
-            color="primary"
-            size="large"
-            onClick={this.handleSignIn}
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
           >
-            Đăng nhập
-          </Button>
-        </CardActions>
-      </Card>
-    );
+            <CardContent
+              style={{
+                width: '90%',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <div
+                style={{
+                  width: '100%',
+                  marginTop: '4%',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  style={{
+                    width: '20%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                  }}
+                >
+                  Tài khoản
+                </Typography>
+                <TextField
+                  style={{ width: '80%' }}
+                  variant="outlined"
+                  label="Tài khoản"
+                  name="username"
+                  onChange={handleChange}
+                ></TextField>
+              </div>
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  marginTop: '4%',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography
+                  style={{
+                    width: '20%',
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                  }}
+                >
+                  Mật khẩu
+                </Typography>
+
+                <TextField
+                  style={{ width: '80%' }}
+                  variant="outlined"
+                  label="Mật khẩu"
+                  name="password"
+                  onChange={handleChange}
+                  type="password"
+                ></TextField>
+              </div>
+            </CardContent>
+            <CardActions
+              style={{
+                marginTop: '3%',
+                width: '90%',
+                display: 'flex',
+                justifyContent: 'flex-end',
+              }}
+            >
+              <Button
+                style={{ width: '80%', display: 'flex' }}
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={handleSignIn}
+              >
+                Đăng nhập
+              </Button>
+            </CardActions>
+          </Card>
+        );
   }
 }
 const mapDispatchToProps = (dispatch) => {

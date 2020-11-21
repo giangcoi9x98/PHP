@@ -1,28 +1,23 @@
-import {
-  SHOW_MODAL,
-  CLOSE_MODAL,
-  SHOW_SIGNIN_MODAL,
-  SHOW_SIGNUP_MODAL,
-} from '../../actions/modalAction';
+import constant from '../../constants';
 
 function modal(state = [], action) {
   switch (action.type) {
-    case SHOW_MODAL:
+    case constant.SHOW_MODAL:
       return {
         ...state,
         isOpen: action.payload,
       };
-    case CLOSE_MODAL:
+    case constant.CLOSE_MODAL:
       return {
         ...state,
         isOpen: action.payload,
       };
-    case SHOW_SIGNIN_MODAL:
+    case constant.SHOW_SIGNIN_MODAL:
       return {
         ...state,
         isBodySignIn: action.payload,
       };
-    case SHOW_SIGNUP_MODAL:
+    case constant.SHOW_SIGNUP_MODAL:
       return {
         ...state,
         isBodySignIn: action.payload,

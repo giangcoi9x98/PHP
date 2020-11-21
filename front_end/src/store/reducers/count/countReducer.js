@@ -1,18 +1,18 @@
-import { ADD_COUNT ,INCREMENT,DECREMENT} from '../../actions/countAction';
+import constants from '../../constants';
 
 function counts(state = [], action) {
   switch (action.type) {
-    case ADD_COUNT:
+    case constants.ADD_COUNT:
       return {
         ...state,
         total: state.total + action.payload,
       };
-    case INCREMENT:
+    case constants.INCREMENT:
       return {
         ...state,
         total:state.total+1
       }
-    case DECREMENT:
+    case constants.DECREMENT:
       return {
         ...state,
         total:state.total-1

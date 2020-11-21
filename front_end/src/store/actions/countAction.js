@@ -1,34 +1,29 @@
-export const ADD_PRODUCT = 'ADD_PRODUCT';
-export const ADD_COUNT = 'ADD_COUNT';
-export const UPDATE_ORDER = 'UPDATE_PRODUCT';
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
-
+import constants from '../constants';
 export function addProduct(product) {
   return {
-    type: ADD_PRODUCT,
+    type: constants.ADD_PRODUCT,
     payload: product,
   };
 }
 export function addCount(count) {
   return {
-    type: ADD_COUNT,
+    type: constants.ADD_COUNT,
     payload: count,
   };
 }
 export function updateOrder(product) {
   return {
-    type: UPDATE_ORDER,
+    type: constants.UPDATE_ORDER,
     payload: product,
   };
 }
 export function increment() {
     return {
-        type:INCREMENT
+        type: constants.INCREMENT
     }
 }
 export function decrement() {
     return {
-        type:DECREMENT
+        type: constants.DECREMENT
     }
 }

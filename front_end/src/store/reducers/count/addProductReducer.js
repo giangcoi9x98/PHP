@@ -1,16 +1,16 @@
-import { ADD_PRODUCT ,UPDATE_ORDER} from '../../actions/countAction';
+import constants from '../../constants';
 import Cookie from 'js-cookie';
 import orderCookie from '../../../utils/orderLocalStorage';
 
 function product(state = {}, action) {
   let newState={...state};
   switch (action.type) {
-    case ADD_PRODUCT:
+    case constants.ADD_PRODUCT:
      //newState = { ...state };
       newState.listOrderProduct.push(action.payload);
       orderCookie.saveOrder(newState.listOrderProduct)
       return newState;
-    case UPDATE_ORDER:
+    case constants.UPDATE_ORDER:
      // newState = { ...state };
       newState.listOrderProduct.push(action.payload)
       orderCookie.updateOrder(newState.listOrderProduct)
