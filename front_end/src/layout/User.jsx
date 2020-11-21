@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SearchAppBar from '../view/utils/SearchAppBar'
+import SearchAppBar from '../component/SearchAppBar'
 export default class User extends Component {
     render() {
         return (

@@ -76,7 +76,7 @@ export default class App extends Component {
         {
           component: Search,
           layout:SearchLayout,
-          path:'/search'
+          path:'/search/:params'
         },
         {
           component: Detail,

@@ -12,7 +12,6 @@ export default function Order(props) {
         console.log(order);
         if (order.status) {
           await setorders(order.data);
-          noti.success('Cập nhật thành công!')
         }
       } catch (e) {
         console.log(e);

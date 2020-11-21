@@ -25,8 +25,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Link, withRouter } from 'react-router-dom';
-import API from '../../api';
-import orderLocalStorage from '../../utils/orderLocalStorage';
+import API from '../api';
+import orderLocalStorage from '../utils/orderLocalStorage';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { connect, useSelector } from 'react-redux';
 import {
@@ -34,11 +34,11 @@ import {
   closeModal,
   showSignInModal,
   showSignUpModal,
-} from '../../store/actions/modalAction';
-import {addKey} from '../../store/actions/countAction'
-import SignIn from '../SignIn/index';
-import SignUp from '../SignUp/index';
-import api from '../../api';
+} from '../store/actions/modalAction';
+import {addKey} from '../store/actions/countAction'
+import SignIn from '../view/SignIn/index';
+import SignUp from '../view/SignUp/index';
+import api from '../api';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -135,7 +135,7 @@ const SearchAppBar = (props) => {
   };
   const handleSearch = async () => {
     await props.addKey(keyword);
-    props.history.push('/search')
+    props.history.push(`/search/${keyword}?page=1`)
   };
   
   useEffect(() => {

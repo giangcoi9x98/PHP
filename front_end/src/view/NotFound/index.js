@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SearchAppBar from '../utils/SearchAppBar';
+import SearchAppBar from '../../component/SearchAppBar';
 import noti from '../../component/Notificator';
 export default class NotFound extends Component {
   constructor(props) {

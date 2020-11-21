@@ -18,7 +18,7 @@ import Axios from 'axios';
 import API from '../../api/api';
 import React, { Component } from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
-import SearchAppBar from '../utils/SearchAppBar';
+import SearchAppBar from '../../component/SearchAppBar';
 import { connect } from 'react-redux';
 import Cookie from 'js-cookie';
 import moment from 'moment';

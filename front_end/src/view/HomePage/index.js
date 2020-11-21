@@ -7,7 +7,7 @@ import SideBar from '../SideBar/index';
 import AdminSideBar from '../Admin/SideBar/index';
 import { withSnackbar, SnackbarProvider } from 'notistack';
 import Product from './Product';
-import TopBar from '../utils/SearchAppBar';
+import TopBar from '../../component/SearchAppBar';
 import { withRouter } from 'react-router-dom';
 
 class HomePage extends Component {

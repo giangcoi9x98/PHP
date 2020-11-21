@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { useLocation } from 'react-router';
 import api from '../../api';
 import DetailProduct from './ProductDetail';
-import SearchAppBar from '../utils/SearchAppBar';
+import SearchAppBar from '../../component/SearchAppBar';
 export default class Detail extends Component {
   constructor(props) {
     super();
