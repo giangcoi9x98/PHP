@@ -1,13 +1,13 @@
 import constants from '../../constants';
 
 const initState = {
-
+    data: null,
 }
-const SignReduxcer = (state = initStatem, action) => {
+const SignReduxcer = (state = initState, action) => {
     switch (action.type){
         case constants.SIGN_IN:
             return{
-                ...initState,
+                ...state,
                 data: action.playLoad,
             }
         default:

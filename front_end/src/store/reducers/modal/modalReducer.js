@@ -1,6 +1,10 @@
 import constant from '../../constants';
-
-function modal(state = [], action) {
+import orderLocalStorage from '../../../utils/orderLocalStorage';
+const initialState = {
+  isBodySignIn:true,
+  isOpen:false
+};
+function modal(state = initialState, action) {
   switch (action.type) {
     case constant.SHOW_MODAL:
       return {

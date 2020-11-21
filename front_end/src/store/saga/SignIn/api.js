@@ -1,7 +1,7 @@
 import API from '../../api';
 
 
-function* logIn(username){
+function* logIn({username, password}){
     const data = yield API.post('/login', {
         username: username,
         password: password,
@@ -16,7 +16,7 @@ function* logIn(username){
             mesage: ' login falied',
         }
     })
-
+    return data;
 }
 
 export default logIn;

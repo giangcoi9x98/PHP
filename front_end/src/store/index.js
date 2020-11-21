@@ -1,25 +1,17 @@
-import { createStore } from 'redux';
+import { createStore , applyMiddleware} from 'redux';
 import rootReducer from './reducers/index';
+import createSagaMiddleware from 'redux-saga';
 import Cookie from 'js-cookie'
-import orderLocalStorage from '../utils/orderLocalStorage'
+import orderLocalStorage from '../utils/orderLocalStorage';
+import rootSaga from './saga';
+const sagaMiddleware = createSagaMiddleware();
 
-const initialState = {
-  counts: {
-    current: 1,
-    total: orderLocalStorage.getTotalCount(),
-  },
-  product: {
-    listOrderProduct: orderLocalStorage.getOrder(),
-    total:orderLocalStorage.getTotalCount()
-  },
-  modal: {
-    isBodySignIn:true,
-    isOpen:false
-  }
-};
-const store = createStore(
-  rootReducer,
-  initialState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-);
+
+const store  = createStore(rootReducer, applyMiddleware(sagaMiddleware), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+sagaMiddleware.run(rootSaga);
+// const store = createStore(
+//   rootReducer,
+//   initialState,
+//   ,
+// );
 export default store;

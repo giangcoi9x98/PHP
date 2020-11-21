@@ -1,8 +1,13 @@
 import constants from '../../constants';
 import Cookie from 'js-cookie';
 import orderCookie from '../../../utils/orderLocalStorage';
+import orderLocalStorage from '../../../utils/orderLocalStorage';
+const initialState = {
+  listOrderProduct: orderLocalStorage.getOrder(),
+  total:orderLocalStorage.getTotalCount()
+};
 
-function product(state = {}, action) {
+function product(state = initialState, action) {
   let newState={...state};
   switch (action.type) {
     case constants.ADD_PRODUCT:

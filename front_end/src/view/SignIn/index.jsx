@@ -12,6 +12,7 @@ import api from '../../api';
 import Cookie from 'js-cookie';
 import { showModal, closeModal } from '../../store/actions/modalAction';
 import {useDispatch} from "react-redux";
+import actions from '../../store/actions';
 
 const SignIn = (props) => {
 // class SignIn extends Component {
@@ -21,27 +22,8 @@ const SignIn = (props) => {
    const [token, setToken] = useState(Cookie.get('token'));
    const [username, setUsername] = useState('');
    const [password, setPassword] = useState('');
-  const handleSignIn = async () => {
-    try {
-      const data = await api.auth.logIn({
-        username: username,
-        password: password,
-      });
-
-      Cookie.set('token', data.data.token, { expires: 365 });
-      setLogin(true);
-      if (data.status) {
-        window.location = '/';
-        dispatch(closeModal())
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+  const handleSignIn = (ur, pw) => {
+    dispatch(actions.on_SignInAction({ur, pw}));
   };
 
     if (login) {
@@ -89,7 +71,7 @@ const SignIn = (props) => {
                   variant="outlined"
                   label="Tài khoản"
                   name="username"
-                  onChange={handleChange}
+                  onChange={(e) => setUsername(e.target.value)}
                 ></TextField>
               </div>
               <div
@@ -117,7 +99,7 @@ const SignIn = (props) => {
                   variant="outlined"
                   label="Mật khẩu"
                   name="password"
-                  onChange={handleChange}
+                  onChange={(e) => setPassword(e.target.value)}
                   type="password"
                 ></TextField>
               </div>
@@ -135,7 +117,7 @@ const SignIn = (props) => {
                 variant="contained"
                 color="primary"
                 size="large"
-                onClick={handleSignIn}
+                onClick={() => handleSignIn(username, password)}
               >
                 Đăng nhập
               </Button>

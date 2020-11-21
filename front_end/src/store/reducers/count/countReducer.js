@@ -1,6 +1,12 @@
 import constants from '../../constants';
+import orderLocalStorage from '../../../utils/orderLocalStorage';
 
-function counts(state = [], action) {
+const initialState = {
+  current: 1,
+  total: orderLocalStorage.getTotalCount(),
+};
+
+function counts(state = initialState, action) {
   switch (action.type) {
     case constants.ADD_COUNT:
       return {

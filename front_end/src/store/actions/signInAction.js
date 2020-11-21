@@ -8,7 +8,7 @@ const SignInAction = (data) => {
 }
 const on_SignInAction = (data) => {
     return{
-        type: constants.ON_LOGIN,
+        type: constants.ON_SIGNIN,
         playLoad: data,
     }
 }
