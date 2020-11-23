@@ -21,12 +21,13 @@ const useStyles = makeStyles(() => ({
 }));
 
 function ProfileDetails(props) {
+  console.log('props',props);
   const { user, isUpdate } = props;
   const classes = useStyles();
   const [values, setValues] = useState({});
   const [update, setupdate] = useState(false);
   useEffect(() => {
-    setValues(user);
+    setValues(user.data);
   }, [user,update]);
 
   const handleChange = (event) => {
@@ -139,7 +140,7 @@ function ProfileDetails(props) {
         <Divider />
         <Box display="flex" justifyContent="flex-end" p={2}>
                   <Button
-                      
+
             onClick={async() => {
               await handleUpdate();
               await isUpdate(true);

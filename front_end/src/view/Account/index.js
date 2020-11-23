@@ -20,19 +20,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Account = () => {
   const classes = useStyles();
-  const [user, setusers] = useState({});
   const [isUpdated, setisUpdated] = useState(false);
   const res = useSelector((state) => state?.profileReducer);
-  console.log('user', res);
-  if (res.status) {
-    setusers(res.data.data);
-    console.log('index', res.data.data);
-  }
+  const user = useSelector((state)=>state?.profileReducer?.data?.data);
+  console.log('user',user);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(action.on_GetProfileAction());
   }, []);
-  console.log(user);
+  if(user === undefined)  return null;
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Grid container spacing={3}>

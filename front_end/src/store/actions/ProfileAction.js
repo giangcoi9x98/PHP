@@ -6,10 +6,9 @@ const getProfileAction = (data) => {
     playLoad: data,
   }
 }
-const on_GetProfileAction = (data) => {
+const on_GetProfileAction = () => {
   return{
     type: constants.ON_GET_PROFILE,
-    playLoad: data,
   }
 }
 export {getProfileAction, on_GetProfileAction};

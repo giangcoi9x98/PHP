@@ -29,7 +29,7 @@ const Profile = (props) => {
   return (
     <Card
       className={clsx(classes.root)}
-     
+
     >
       <CardContent>
         <Box
@@ -46,7 +46,7 @@ const Profile = (props) => {
             gutterBottom
             variant="h3"
           >
-           {props.user.username}
+           {props.user.data.username}
           </Typography>
           <Typography
             color="textSecondary"

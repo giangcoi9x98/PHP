@@ -12,6 +12,6 @@ function* getData(action){
 function* watchDataGetProfile(){
   yield takeLatest(constants.ON_GET_PROFILE, getData);
 }
-export default watchDataGetProfile();
+export default watchDataGetProfile;
 
 
