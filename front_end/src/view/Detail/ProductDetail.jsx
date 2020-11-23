@@ -59,7 +59,6 @@ class ProductDetail extends Component {
           isLogin: true,
         });
       }
-      console.log('statusOrder', result.status);
     } catch (error) {
       console.log(error);
     }
@@ -110,7 +109,6 @@ class ProductDetail extends Component {
   }
 
   render() {
-    console.log(this.props);
     const priceIn = new Intl.NumberFormat('de-DE', {
       style: 'currency',
       currency: 'VND',
@@ -204,7 +202,7 @@ class ProductDetail extends Component {
               flexDirection: 'column',
             }}
           >
-            <Hidden mdDown style={{ display: 'flex', flexDirection: 'row' }}>
+            <Hidden mdDown >
               <Typography variant="h5" color="textPrimary">
                 {this.props.propsDetail.detailProduct.display}
               </Typography>
@@ -244,11 +242,12 @@ class ProductDetail extends Component {
                 </Typography>
               </div>
               <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <ButtonGroup style={{}}>
+                <ButtonGroup >
                   <Button variant="outlined" onClick={this.dcCount}>
                     -
                   </Button>
                   <TextField
+                    color="primary"
                     name="count"
                     variant="outlined"
                     onChange={this.handleChangeCount}

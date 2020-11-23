@@ -21,8 +21,7 @@ const useStyles = makeStyles({
 
   useEffect(() => {
     setorderList(orders);
-    console.log(orders);
-    console.log(orderList);
+   
   }, [orders]);
   const classes = useStyles();
 
@@ -40,7 +39,7 @@ const useStyles = makeStyles({
         </TableHead>
         <TableBody>
           {orderList.map((orderList) => (
-            <TableRow key={orderList.username}>
+            <TableRow key={orderList.orderId}>
               <TableCell component="th" scope="row">
                 {orderList.orderId}
               </TableCell>

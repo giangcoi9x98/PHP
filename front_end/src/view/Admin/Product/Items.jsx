@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   Avatar,
@@ -7,18 +6,15 @@ import {
   Card,
   CardContent,
   Divider,
-  Grid,
   Typography,
   makeStyles,
   Button,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import SettingsIcon from '@material-ui/icons/Settings';
-import { IconButton } from 'material-ui';
+import SettingsIcon from '@material-ui/icons/Build';
 import api from '../../../api';
 import noti from '../../../component/Notificator';
 import { withRouter } from 'react-router-dom';
-import Items from './createItem';
 import { addId } from '../../../store/actions/countAction';
 import { connect } from 'react-redux';
 
@@ -37,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductCard = (props) => {
-  const { className, product} = props;
+  const { className, product } = props;
   const classes = useStyles();
   const handleDelete = async (id) => {
     try {
@@ -54,12 +50,13 @@ const ProductCard = (props) => {
   };
   const handleUpdate = async () => {
     await props.addId(product.productId);
-    await props.history.push(`/update/product?id=${product.productId}`)
+    await props.history.push(`/update/product?id=${product.productId}`);
   };
   return (
     <Card
-      onClick={()=>props.history.push(`/detail/${product.productId}`)}
-      className={clsx(classes.root, className)}>
+      onClick={() => props.history.push(`/detail/${product.productId}`)}
+      className={clsx(classes.root, className)}
+    >
       <CardContent>
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button>
@@ -94,7 +91,6 @@ const ProductCard = (props) => {
     </Card>
   );
 };
-
 
 const mapStateToProps = (state) => {
   return {

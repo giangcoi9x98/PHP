@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class AccountController extends Controller
 {
     function getAll(){
-        return User::all();
+        return User::where('isDelete',0)->get();
     }
     function create(Request $request){
       try{
@@ -34,21 +34,29 @@ class AccountController extends Controller
    function update(Request $request){
     try{
         $user=Auth::guard('api')->user();
+        $pass='';
         if($request->has('password')){
-            $user->password=bcrypt($request->input('password'));
+            $pass=bcrypt($request->input('password'));
         }
-      User::where('username',$user['username'])->update($request->all());
-        
+        User::where('username',$user['username'])
+        ->update(['firstname'=>$request->input('firstname'),
+                    'lastname'=>$request->input('lastname'),
+                    'email'=>$request->input('email'),
+                    'phone'=>$request->input('phone'),
+                    'address'=>$request->input('address'),
+                    'password'=>$pass,
+
+        ]);
+
         return response()->json([
-            'message'=>"Success !",
-            
+            'message'=>"Success !",         
         ],200);
     }catch(Exception $e){
         return response()->json('Bad Request !',400);
     }
 }
 function delete($id){
-   User::where('username',$id)->delete();
+   User::where('username',$id)->update(['isDelete'=>1]);
    return response()->json('User deleted successfully',200);
 }
  

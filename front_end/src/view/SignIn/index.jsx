@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import {
-  Paper,
-  withStyles,
-  Grid,
   TextField,
   Button,
   Card,
@@ -10,28 +7,11 @@ import {
   CardContent,
   CardActions,
   Link as Direct,
-  FormControlLabel,
-  Checkbox,
-  Dialog,
-  Modal,
   Typography,
-  Drawer,
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link, Redirect } from 'react-router-dom';
-import {
-  DialerSip,
-  Face,
-  Fingerprint,
-  Lock,
-  HighlightOff,
-  Clear,
-} from '@material-ui/icons';
 import api from '../../api';
 import Cookie from 'js-cookie';
-import axios from 'axios';
-import { connect } from 'react-redux';
 import { showModal, closeModal } from '../../store/actions/modalAction';
 import noti from '../../component/Notificator';
 class SignIn extends Component {
@@ -64,7 +44,6 @@ class SignIn extends Component {
         noti.error('Đăng nhập thất bại !');
       }
     } catch (err) {
-      //noti.error('Đăng nhập thất bại !');
       console.log(err);
     }
   };

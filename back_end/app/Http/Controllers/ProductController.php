@@ -11,7 +11,7 @@ use Ramsey\Uuid\Uuid;
 class ProductController extends Controller
 {
    function getAll(){
-       return Product::paginate(20);
+       return Product::where('isDelete',0)->paginate(20);
    }
    function getById($id){
        return Product::where('productId',$id)->first();
@@ -74,7 +74,7 @@ class ProductController extends Controller
         }
    }
    function delete($id){
-       Product::where('productId',$id)->delete();
+       Product::where('productId',$id)->update(['isDelete'=>1]);
        return response()->json('Product deleted seccessfully');
    }
 }

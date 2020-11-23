@@ -125,9 +125,7 @@ function CartItem(props) {
     window.location = '/order/cart';
   };
   const updateOrder = async () => {
-    console.log(orderProduct);
     await props.updateOrder(orderProduct);
-    console.log('props', props);
   };
   useEffect(() => {
     (async () => {
@@ -153,7 +151,7 @@ function CartItem(props) {
               <Typography className={classes.textPrice}>{priceOut}</Typography>
             </div>
             <div className={classes.order}>
-              <Typography className={classes.textPriceIn}>{priceIn}</Typography>
+              <Typography color="primary" className={classes.textPriceIn}>{priceIn}</Typography>
               <Typography className={classes.textPrice}>
                 {percentSale}
               </Typography>

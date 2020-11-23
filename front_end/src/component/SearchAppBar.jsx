@@ -10,8 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Home as HomeIcon } from '@material-ui/icons';
 import {
-  Button,
-  Drawer,
+
   Link as LogOut,
   Modal,
   Card,
@@ -21,12 +20,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Cookie from 'js-cookie';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import API from '../api';
-import orderLocalStorage from '../utils/orderLocalStorage';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { connect, useSelector } from 'react-redux';
 import {
@@ -38,15 +34,14 @@ import {
 import {addKey} from '../store/actions/countAction'
 import SignIn from '../view/SignIn/index';
 import SignUp from '../view/SignUp/index';
-import api from '../api';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
+  // menuButton: {
+  //   marginRight: theme.spacing(2),
+  // },
   title: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
@@ -201,18 +196,12 @@ const SearchAppBar = (props) => {
       <MenuItem onClick={() => props.history.push('/order/detail')}>
         Thông tin đơn hàng
       </MenuItem>
-      <Link
-        onClick={handleAccount}
-        style={{ textDecoration: 'none', color: 'black' }}
-      >
-        <MenuItem onClick={handleMenuClose}>Thông tin cá nhân</MenuItem>
-      </Link>
-      <Link
-        onClick={handleSignUp}
-        style={{ color: 'black', textDecoration: 'none' }}
-      >
-        <MenuItem onClick={handleMenuClose}> {isLogin}</MenuItem>
-      </Link>
+   
+        <MenuItem onClick={() =>  handleMenuClose, handleAccount }>Thông tin cá nhân</MenuItem>
+      
+     
+        <MenuItem onClick={()=>handleMenuClose,handleSignUp}> {isLogin}</MenuItem>
+    
     </Menu>
   );
 

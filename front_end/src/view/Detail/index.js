@@ -1,13 +1,9 @@
-import { Button } from '@material-ui/core';
-import Axios from 'axios';
 import React, { Component } from 'react';
-import { useLocation } from 'react-router';
 import api from '../../api';
 import DetailProduct from './ProductDetail';
-import SearchAppBar from '../../component/SearchAppBar';
 export default class Detail extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       productId: window.location.pathname.split('/')[2],
       productDetail: {},
@@ -41,7 +37,7 @@ export default class Detail extends Component {
     }
     return (
       <div>
-        <div style={{ padding: 20 }}>
+        <div>
           <DetailProduct
             propsDetail={propsDetail}
           ></DetailProduct>

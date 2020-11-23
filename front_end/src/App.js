@@ -26,7 +26,6 @@ export default class App extends Component {
         {
           component: HomePage,
           layout: DefaultLayout,
-          // layout: Cookie.get(`token`) ? Normal : Normal,
           path: `/`,
         },
         {
@@ -117,7 +116,7 @@ export default class App extends Component {
           >
             <Switch>
               {this.state.routers.map((e) => (
-                <Route exact path={e.path}>
+                <Route key={e.path} exact path={e.path}>
                   <e.layout>
                     <e.component />
                   </e.layout>

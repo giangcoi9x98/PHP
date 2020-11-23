@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     function getAll(){
-        return Category::all();
+        return Category::where('isDelete',0)->get();
     }
     function getById($id){
         return Category::where('categoryId',$id)->first();

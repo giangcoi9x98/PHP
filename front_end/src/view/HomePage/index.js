@@ -30,7 +30,7 @@ class HomePage extends Component {
         page: this.state.page,
         //size: this.state.size,
       });
-      console.log(res.data.data);
+     
 
       if (res.status) {
         this.setState({
@@ -38,7 +38,6 @@ class HomePage extends Component {
           total: res.data.total,
           size: res.data.per_page,
         });
-        console.log('props: ', this.state.listProduct, this.state.total);
       }
     } catch (e) {
       console.log(e);
@@ -77,7 +76,7 @@ class HomePage extends Component {
         ></TopBar>
 
         <div style={{ display: 'flex' }}>
-          <div style={{}}>
+          <div>
             <Hidden lgUp>
               <Drawer
                 open={this.state.isShowSideBar}
@@ -99,8 +98,8 @@ class HomePage extends Component {
               >
                 {this.state.listProduct.map((product) => {
                   return (
-                    <Grid item xs={12} sm={6} md={3}>
-                      <Product product={product}></Product>
+                    <Grid item xs={12} sm={6} md={3} key={product.productId}>
+                      <Product key={product.productId} product={product}></Product>
                     </Grid>
                   );
                 })}

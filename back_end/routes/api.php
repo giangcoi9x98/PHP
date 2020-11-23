@@ -29,7 +29,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     Route ::get('/search/{keyword}','App\Http\Controllers\SearchController@index')->name('search.api.index');
 
  Route::group(['middleware' => 'auth:api'], function() {
-   Route::put('account','App\Http\Controllers\AccountController@update')->name('account.api.update');
+   Route::put('account/{id}','App\Http\Controllers\AccountController@update')->name('account.api.update');
    Route::get('me','App\Http\Controllers\AuthController@getMe')->name('account.api.getMe');
    Route::post('order','App\Http\Controllers\OrderController@create')->name('order.api.create');
    Route::get('order/{username}','App\Http\Controllers\OrderController@getAllByUsername')->name('order.api.getAllByUsername');

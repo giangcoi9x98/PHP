@@ -42,6 +42,7 @@ function Items(props) {
         <TableHead>
           <TableRow>
             <TableCell>Mã đơn hàng</TableCell>
+            <TableCell>Địa chỉ</TableCell>
             <TableCell align="right">Ngày mua</TableCell>
             <TableCell align="right">Người mua</TableCell>
             <TableCell align="center">Sản phẩm</TableCell>
@@ -55,6 +56,9 @@ function Items(props) {
             <TableRow key={orderList.username}>
               <TableCell component="th" scope="row">
                 {orderList.orderId}
+              </TableCell>
+              <TableCell align="right">
+                {orderList.address}
               </TableCell>
               <TableCell align="right">
                 {moment(orderList.created_at).format('DD/MM/YYYY')}

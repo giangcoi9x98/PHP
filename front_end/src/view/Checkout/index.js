@@ -127,6 +127,7 @@ class Checkout extends Component {
               <TextField
                 style={{ width: '100%' }}
                 name="address"
+                
                 value={this.state.address}
                 id="outlined-basic"
                 label="Địa chỉ nhận hàng"
@@ -162,7 +163,7 @@ class Checkout extends Component {
         >
           {this.state.listOrders.map((orders) => {
             return (
-              <Card style={{ display: 'flex', width: '100%' }}>
+              <Card key={orders.productId} style={{ display: 'flex', width: '100%' }}>
                 <Item orders={orders}></Item>
               </Card>
             );

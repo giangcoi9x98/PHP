@@ -26,7 +26,6 @@ const Account = () => {
         const res = await api.account.getProfile();
         if (res.status) {
           await setusers(res.data.data);
-          console.log('index', res.data.data);
         }
       } catch (e) {
         console.log(e);
@@ -40,7 +39,6 @@ const Account = () => {
     isUpdate()
     fetchData();
   }, [isUpdated]);
-  console.log(user);
   return (
     <Container maxWidth="lg" className={classes.container}>
       <Grid container spacing={3}>

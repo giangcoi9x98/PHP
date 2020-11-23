@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import CartItem from './CartItem';
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom'
-import orderLocalStorage from '../../utils/orderLocalStorage';
-import Axios from 'axios';
 
 class Cart extends Component {
   constructor(props) {
@@ -50,9 +48,7 @@ class Cart extends Component {
   async componentDidMount() {
     await this.fetchData();
   }
-  render() {
-    console.log(this.state.listOrders)
-    console.log(this.props.product)
+  render() {    
     const totalBill = new Intl.NumberFormat('de-DE', {
       style: 'currency',
       currency: 'VND',
@@ -111,8 +107,9 @@ class Cart extends Component {
           <Grid style={{ width: '70%', paddingTop: '5%', paddingLeft: '5%' }}>
             {this.state.listOrders.map((orders) => {
               return (
-                <Grid>
+                <Grid key={orders.productId}>
                   <CartItem
+                    key={orders.productId}
                     orders={orders}
                     totalBill={(cost) =>
                       this.setState({

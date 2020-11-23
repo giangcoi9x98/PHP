@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Link as RouterLink,
-  Link,
-  useNavigate,
-  useHistory,
-} from 'react-router-dom';
+
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -49,10 +44,10 @@ function SignUp() {
       console.log('signup', data.data.status);
       if (data.data.status === 201) {
         await setIsSignUp(true);
-       noti.success('Tạo mới thành công!')
+        noti.success('Tạo mới thành công!');
       }
     } catch (err) {
-      noti.error('Tạo mới thất bại')
+      noti.error('Tạo mới thất bại');
       console.log(err);
     }
   };
@@ -192,9 +187,7 @@ function SignUp() {
                 <Typography color="textPrimary" variant="body1">
                   Bạn đã có tài khoản?
                 </Typography>
-                  <Box
-                    onClick={() => dispatch(showSignInModal())}
-                  >
+                <Box onClick={() => dispatch(showSignInModal())}>
                   <Typography
                     color="primary"
                     style={{

@@ -52,29 +52,23 @@ export const deleteAcount = async (id) => {
     };
   }
 };
-export const updateAccount = async ({
-  firstname,
-  lastname,
-  email,
-  phone,
-  address,
-  password,
-  
-}) => {
+export const updateAccount = async (
+  id,
+  { firstname, lastname, email, phone, address, password },
+) => {
   try {
-    const res = API.put('/account', {
+    const res = API.put(`/account/${id}`, {
       firstname: firstname,
       lastname: lastname,
       email: email,
       phone: phone,
       address: address,
       password: password,
-      
     });
     return {
       status: true,
-      data:res.data
-    }
+      data: res.data,
+    };
   } catch (e) {
     return {
       status: false,

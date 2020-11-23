@@ -17,7 +17,7 @@ use Ramsey\Uuid\Uuid;
 class OrderController extends Controller
 {
     function getAll(){
-        return Order::all();
+        return Order::where('isDelete',0)->get();
     }
     function create(Request $request ){
        try{
@@ -70,7 +70,7 @@ class OrderController extends Controller
         }
     }
     function delete($id){
-        Order::where('orderId',$id)->delete();
+        Order::where('orderId',$id)->update(['isDelete'=>1]);
         return response()->json('Order deleted successfully!',200);
     }
 }

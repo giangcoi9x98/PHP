@@ -19,7 +19,6 @@ export default function Order(props) {
     };
     fetchData();
   }, []);
- console.log(orderId);
   return (
     <div>
       <Items

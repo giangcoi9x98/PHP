@@ -35,7 +35,7 @@ function ProfileDetails(props) {
       [event.target.name]: event.target.value,
     });
   };
-  const handleUpdate = async () => {
+  const handleUpdate = async (id) => {
     const firstname = values.firstname;
     const lastname = values.lastname;
     const email = values.email;
@@ -44,7 +44,7 @@ function ProfileDetails(props) {
     const password = values.password;
 
     try {
-      const res = await api.account.updateAccount({
+      const res = await api.account.updateAccount(id,{
         firstname,
         lastname,
         email,
@@ -141,7 +141,7 @@ function ProfileDetails(props) {
                   <Button
                       
             onClick={async() => {
-              await handleUpdate();
+              await handleUpdate(values.username);
               await isUpdate(true);
             }}
             color="primary"

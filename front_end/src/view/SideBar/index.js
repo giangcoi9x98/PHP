@@ -47,7 +47,7 @@ export default class SideBar extends Component {
     return (
       <div style={{ paddingTop: 20 }}>
         {this.state.listCategoryId.map((category) => (
-          <Category category={category}></Category>
+          <Category key={category.categoryId} category={category}></Category>
         ))}
       </div>
     );
