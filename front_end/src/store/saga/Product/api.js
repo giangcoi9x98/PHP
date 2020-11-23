@@ -1,8 +1,11 @@
 import API from '../../api';
 
 function* getAllProduct(params){
+  console.log('page-param', params);
   try {
-    const res = yield API.get('/product', params);
+    const res = yield API.get('/product', {
+      params,
+    });
     return {
       status: true,
       data: res.data,

@@ -19,6 +19,9 @@ const ALL_CATEGORY = 'ALL_CATEGORY';
 const GET_ALL_CATEGORY = 'GET_ALL_CATEGORY';
 const PRODUCT = 'PRODUCT';
 const GET_ALL_PRODUCT = 'GET_ALL_PRODUCT';
+const GET_PROFILE = 'GET_PROFILE';
+const ON_GET_PROFILE = 'ON_GET_PROFILE';
+
 export default {
     SHOW_MODAL,
     CLOSE_MODAL,
@@ -41,4 +44,6 @@ export default {
     GET_ALL_CATEGORY,
     PRODUCT,
     GET_ALL_PRODUCT,
+    GET_PROFILE,
+    ON_GET_PROFILE,
 };

@@ -13,23 +13,31 @@ import allProductReducer from '../../store/reducers/product';
 import action from '../../store/actions';
 
 const HomePage = (props) => {
-  const [listProduct, setListProduct] = useState([]);
-  const [total, setTotal] = useState(0);
+  // const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(0);
+  // const [size, setSize] = useState(0);
   const [isShowSideBar, setIsShowSideBar] = useState(false);
   const [isCloseSideBar, setIsCloseSideBar] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const dispatch = useDispatch();
   const dataResp = useSelector((state) => state?.allProductReducer);
-  console.log('resp', dataResp);
+  const total = useSelector((state)=>state?.allProductReducer?.data?.data?.total);
+  const size = useSelector((state)=>state?.allProductReducer?.data?.data?.per_page)
+  console.log('total', total);
+  console.log('size', size);
+  console.log('datarep', dataResp);
+  // try{
+  //   if (dataResp.data.status) {
+  //     setTotal(dataResp.data.data.total);
+  //     setSize(dataResp.data.data.per_page);
+  //     console.log('total', total);
+  //     console.log('size', size);
+  //   }
+  // }catch (err){
+  //
+  // }
   const fetchData = (page) => {
-    dispatch(action.get_Product({page: 5,}));
-    if (dataResp.data.status) {
-      setTotal(dataResp.data.data.total);
-      setSize(dataResp.data.data.per_page);
-      console.log('props: ', listProduct, total);
-    }
+    dispatch(action.get_Product({ page: page }));
   }
   useEffect(() => {
     try {
@@ -37,12 +45,11 @@ const HomePage = (props) => {
     } catch (e) {
       console.log(e);
     }
-  }, [])
+  }, [page])
 
   const handlePageChange = (event, value) => {
     console.log('page', value);
     setPage(value);
-    fetchData(page);
   };
 
     let sidebar;
@@ -79,7 +86,7 @@ const HomePage = (props) => {
                   flexWrap: 'wrap',
                 }}
               >
-                {dataResp.data != undefined?
+                {(dataResp.data != undefined && dataResp.data.status != false)?
                   dataResp.data.data.data.map((product) => {
                   return (
                     <Grid item xs={12} sm={6} md={3}>

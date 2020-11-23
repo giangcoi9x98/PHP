@@ -1,6 +1,6 @@
-import watchDataSign from "./SignIn";
+import watchDataSign from "./Profile/SignIn";
 import {all} from 'redux-saga/effects';
-import watchDataSignUp from './SignUp';
+import watchDataSignUp from './Profile/SignUp';
 import watchDataCatagory from './Category';
 import watchDataAllProduct from './Product';
 

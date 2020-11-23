@@ -6,6 +6,7 @@ import signInReducer from './signIn';
 import signUpReducer from './signUp';
 import allCategoryReducer from './catagory';
 import allProductReducer from './product';
+import profileReducer from './profile';
 const rootReducer = combineReducers({
   counts,
   product,
@@ -14,5 +15,6 @@ const rootReducer = combineReducers({
   signUpReducer,
   allCategoryReducer,
   allProductReducer,
+  profileReducer,
 });
 export default rootReducer;

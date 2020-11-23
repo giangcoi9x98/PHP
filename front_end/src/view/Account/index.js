@@ -3,6 +3,8 @@ import { Container, Grid, makeStyles } from '@material-ui/core';
 import Profile from './Profile';
 import ProfileDetails from './ProfileDetail';
 import api from '../../api';
+import { useDispatch, useSelector } from 'react-redux';
+import action from '../../store/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,26 +22,16 @@ const Account = () => {
   const classes = useStyles();
   const [user, setusers] = useState({});
   const [isUpdated, setisUpdated] = useState(false);
+  const res = useSelector((state) => state?.profileReducer);
+  console.log('user', res);
+  if (res.status) {
+    setusers(res.data.data);
+    console.log('index', res.data.data);
+  }
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await api.account.getProfile();
-        if (res.status) {
-          await setusers(res.data.data);
-          console.log('index', res.data.data);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    const isUpdate = async () => {
-      if (isUpdated) {
-         //window.location = '/me';
-      }
-    };
-    isUpdate()
-    fetchData();
-  }, [isUpdated]);
+    dispatch(action.on_GetProfileAction());
+  }, []);
   console.log(user);
   return (
     <Container maxWidth="lg" className={classes.container}>

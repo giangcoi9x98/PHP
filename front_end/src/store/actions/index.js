@@ -4,6 +4,7 @@ import {on_SignInAction, SignInAction} from './signInAction';
 import {on_SignUpAction, SignUpAction} from './signUpAction';
 import {category, get_Category} from './catagory';
 import {product, get_Product} from './product';
+import {getProfileAction, on_GetProfileAction} from './ProfileAction';
 
 export default {
     addProduct,
@@ -23,4 +24,6 @@ export default {
     get_Category,
     product,
     get_Product,
+    getProfileAction,
+    on_GetProfileAction,
 };
