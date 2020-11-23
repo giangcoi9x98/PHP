@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cookie from 'js-cookie';
-import constant from '../constants';
+import constants from '../constants'
 const API = axios.create({
-  baseURL: constant.serverUrl,
+  baseURL: constants.serverUrl,
 });
 API.interceptors.request.use(
   (req) => {

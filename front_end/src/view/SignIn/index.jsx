@@ -1,87 +1,61 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
+import {ToastProvider ,useToasts } from 'react-toast-notifications';
+import {useSelector} from 'react-redux';
 import {
-  Paper,
-  withStyles,
-  Grid,
   TextField,
   Button,
   Card,
-  CardHeader,
   CardContent,
   CardActions,
-  Link as Direct,
-  FormControlLabel,
-  Checkbox,
-  Dialog,
-  Modal,
   Typography,
-  Drawer,
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import { Link, Redirect } from 'react-router-dom';
-import {
-  DialerSip,
-  Face,
-  Fingerprint,
-  Lock,
-  HighlightOff,
-  Clear,
-} from '@material-ui/icons';
 import api from '../../api';
 import Cookie from 'js-cookie';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { showModal, closeModal } from '../../store/actions/modalAction';
+import {useDispatch} from "react-redux";
+import actions from '../../store/actions';
 import noti from '../../component/Notificator';
-class SignIn extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sign: false,
-      login: false,
-      token: Cookie.get('token'),
-      username: '',
-      password: '',
-    };
-  }
-  handleSignIn = async () => {
-    try {
-      const data = await api.auth.logIn({
-        username: this.state.username,
-        password: this.state.password,
-      });
-
-      // await this.setState({
-      //   login: true,
-      // });
-      if (data.status) {
-        Cookie.set('token', data.data.token, { expires: 365 });
-        noti.success('Đăng nhập thành công!');
+const SignIn = (props) => {
+// class SignIn extends Component {
+  const dispatch = useDispatch();
+  const [sign, setSign] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [token, setToken] = useState(Cookie.get('token'));
+  const [logined, setLogined] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const respLogin = useSelector((state) => state?.signInReducer);
+  useEffect(() => {
+    console.log(respLogin);
+    try{
+      Cookie.set('token', respLogin.data.data.token, { expires: 365 });
+      if (respLogin.data.status === 200) {
+        noti.success('Đăng nhập thành công');
         window.location = '/';
-        this.props.closeModal();
-      } else {
-        noti.error('Đăng nhập thất bại !');
+        dispatch(actions.closeModal());
       }
-    } catch (err) {
-      //noti.error('Đăng nhập thất bại !');
-      console.log(err);
+      else{
+        noti.error('Sai tài khoản hoặc mật khẩu!');
+      }
     }
-  };
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    catch(err){
+      if(logined === true)
+        noti.error('Sai tài khoản hoặc mật khẩu!');
+      console.log(respLogin);
+    }
+  }, [respLogin]);
+  const handleSignIn = (ur, pw) => {
+    dispatch(actions.on_SignInAction({username: ur, password: pw}));
   };
 
-  render() {
-    if (this.state.login) {
-      return <div>{}</div>;
-    }
-    const { classes } = this.props;
+  if (login) {
+    return <div>{}</div>;
+  }
+  else{
     return (
       <Card
         style={{
+
           height: '100%',
           display: 'flex',
           alignItems: 'center',
@@ -119,7 +93,7 @@ class SignIn extends Component {
               variant="outlined"
               label="Tài khoản"
               name="username"
-              onChange={this.handleChange}
+              onChange={(e) => setUsername(e.target.value)}
             ></TextField>
           </div>
           <div
@@ -147,7 +121,7 @@ class SignIn extends Component {
               variant="outlined"
               label="Mật khẩu"
               name="password"
-              onChange={this.handleChange}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
             ></TextField>
           </div>
@@ -165,7 +139,10 @@ class SignIn extends Component {
             variant="contained"
             color="primary"
             size="large"
-            onClick={this.handleSignIn}
+            onClick={() => {
+              handleSignIn(username, password);
+              setLogined(true);
+            }}
           >
             Đăng nhập
           </Button>
@@ -174,10 +151,5 @@ class SignIn extends Component {
     );
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showModal: () => dispatch(showModal()),
-    closeModal: () => dispatch(closeModal()),
-  };
-};
+
 export default withRouter(SignIn);

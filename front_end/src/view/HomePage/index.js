@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Grid, Hidden, Drawer, Box, Modal, Fade } from '@material-ui/core';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
 import api from '../../api';
 import SideBar from '../SideBar/index';
@@ -9,79 +9,61 @@ import { withSnackbar, SnackbarProvider } from 'notistack';
 import Product from './Product';
 import TopBar from '../../component/SearchAppBar';
 import { withRouter } from 'react-router-dom';
+import allProductReducer from '../../store/reducers/product';
+import action from '../../store/actions';
 
-class HomePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      listProduct: [],
-      total: 0,
-      page: 1,
-      size: 0,
-      isShowSideBar: false,
-      isCloseSideBar: true,
-      isAdmin: false,
-    };
+const HomePage = (props) => {
+  const [listProduct, setListProduct] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(0);
+  const [isShowSideBar, setIsShowSideBar] = useState(false);
+  const [isCloseSideBar, setIsCloseSideBar] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const dispatch = useDispatch();
+  const dataResp = useSelector((state) => state?.allProductReducer);
+  console.log('resp', dataResp);
+  const fetchData = (page) => {
+    dispatch(action.get_Product({page: 5,}));
+    if (dataResp.data.status) {
+      setTotal(dataResp.data.data.total);
+      setSize(dataResp.data.data.per_page);
+      console.log('props: ', listProduct, total);
+    }
   }
-
-  async fetchData() {
+  useEffect(() => {
     try {
-      const res = await api.product.getAllProduct({
-        page: this.state.page,
-        //size: this.state.size,
-      });
-      console.log(res.data.data);
-
-      if (res.status) {
-        this.setState({
-          listProduct: res.data.data,
-          total: res.data.total,
-          size: res.data.per_page,
-        });
-        console.log('props: ', this.state.listProduct, this.state.total);
-      }
+      fetchData(page);
     } catch (e) {
       console.log(e);
     }
-  }
+  }, [])
 
-  isCloseSideBar = async () => {
-    await this.setState({ isShowSideBar: false });
-  };
-  async componentDidMount() {
-    await this.fetchData(); 
-  }
-
-  handlePageChange = async (event, value) => {
-    await this.setState({
-      page: value,
-    });
-    await this.fetchData();
+  const handlePageChange = (event, value) => {
+    console.log('page', value);
+    setPage(value);
+    fetchData(page);
   };
 
-  render() {
-    const isAdmin = this.state.isAdmin;
     let sidebar;
     if (isAdmin === true) {
       sidebar = <AdminSideBar></AdminSideBar>;
     } else {
       sidebar = <SideBar></SideBar>;
     }
-
     return (
       <div>
         <TopBar
-          isShowSideBar={() => this.setState({ isShowSideBar: true })}
-          isAdmin={() => this.setState({ isAdmin: true })}
-          test={(name) => this.setState({ test: name })}
+          isShowSideBar={() => setIsShowSideBar(true)}
+          isAdmin={() => setIsAdmin(true)}
         ></TopBar>
 
         <div style={{ display: 'flex' }}>
           <div style={{}}>
             <Hidden lgUp>
               <Drawer
-                open={this.state.isShowSideBar}
-                onClose={this.isCloseSideBar}
+                open={isShowSideBar}
+                onClose={() => setIsShowSideBar(false)}
               >
                 {sidebar}
               </Drawer>
@@ -97,13 +79,14 @@ class HomePage extends Component {
                   flexWrap: 'wrap',
                 }}
               >
-                {this.state.listProduct.map((product) => {
+                {dataResp.data != undefined?
+                  dataResp.data.data.data.map((product) => {
                   return (
                     <Grid item xs={12} sm={6} md={3}>
                       <Product product={product}></Product>
                     </Grid>
                   );
-                })}
+                }): null}
               </Grid>
             </Grid>
           </div>
@@ -111,19 +94,14 @@ class HomePage extends Component {
         <Box mt={3} style={{ justifyContent: 'center', display: 'flex' }}>
           <Pagination
             color="primary"
-            count={Math.ceil(this.state.total / this.state.size)}
+            count={Math.ceil(total / size)}
             size="small"
-            onChange={this.handlePageChange}
+            onChange={handlePageChange}
           ></Pagination>
         </Box>
       </div>
     );
-  }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    modal: state.modal,
-  };
-};
-export default withRouter(connect(mapStateToProps)(HomePage));
+
+export default withRouter(HomePage);

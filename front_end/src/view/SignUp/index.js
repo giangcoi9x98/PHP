@@ -1,10 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Link as RouterLink,
-  Link,
-  useNavigate,
-  useHistory,
-} from 'react-router-dom';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import {
@@ -19,15 +13,11 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-import Page from '../HomePage/index';
-import Axios from 'axios';
-import api from '../../api';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { showSignInModal } from '../../store/actions/modalAction';
 import noti from '../../component/Notificator';
-
+import actions from '../../store/actions';
 function SignUp() {
-  const [isEmpty, setIsEmpty] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -35,26 +25,31 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [data, setData] = useState({});
   const [isSignUp, setIsSignUp] = useState(false);
+  const dataSignUp = useSelector((state) => state?.signUpReducer);
   const dispatch = useDispatch();
 
-  const handleSignUp = async () => {
-    try {
-      const data = await api.account.signUp({
+  useEffect(() => {
+    console.log('signup', dataSignUp);
+    try{
+      if (dataSignUp.data.data.status === 201 && username) {
+        noti.success('Tạo mới thành công!')
+      }
+    }
+    catch (err){
+      console.log(dataSignUp);
+      if(dataSignUp.data.status === true && dataSignUp.data.data == undefined)
+        noti.error('Tạo mới thất bại')
+    };
+
+  }, [dataSignUp])
+  const handleSignUp = (username, password, email, firstName, lastName) => {
+      dispatch(actions.on_SignUpAction({
         username: username,
         password: password,
         email: email,
         firstname: firstName,
         lastname: lastName,
-      });
-      console.log('signup', data.data.status);
-      if (data.data.status === 201) {
-        await setIsSignUp(true);
-       noti.success('Tạo mới thành công!')
-      }
-    } catch (err) {
-      noti.error('Tạo mới thất bại')
-      console.log(err);
-    }
+      }));
   };
 
   const checkExists = (values) => {
@@ -183,7 +178,7 @@ function SignUp() {
                   size="large"
                   type="submit"
                   variant="contained"
-                  onClick={handleSignUp}
+                  onClick={() => handleSignUp(username, password, email, firstName, lastName)}
                 >
                   Tạo tài khoản
                 </Button>

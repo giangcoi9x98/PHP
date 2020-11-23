@@ -1,62 +1,53 @@
-export const ADD_PRODUCT = 'ADD_PRODUCT';
-export const ADD_COUNT = 'ADD_COUNT';
-export const UPDATE_ORDER = 'UPDATE_PRODUCT';
-export const INCREMENT = 'INCREMENT';
-export const DECREMENT = 'DECREMENT';
-export const ADD_KEY = 'ADD_KEY';
-export const DELETE_ORDER = 'DELETE_ORDER';
-export const SUB_COUNT = 'SUB_COUNT';
-export const ADD_ID = 'ADD_ID';
+import constants from '../constants';
 export function addProduct(product) {
   return {
-    type: ADD_PRODUCT,
+    type: constants.ADD_PRODUCT,
     payload: product,
+  };
+}
+export function addCount(count) {
+  return {
+    type: constants.ADD_COUNT,
+    payload: count,
   };
 }
 export function addId(id) {
   return {
-    type: ADD_ID,
+    type: constants.ADD_ID,
     payload: id,
   };
 }
 export function addKey(key) {
   return {
-    type: ADD_KEY,
+    type: constants.ADD_KEY,
     payload: key,
   };
 }
-export function addCount(count) {
-  return {
-    type: ADD_COUNT,
-    payload: count,
-  };
-}
-export function subCount(count) {
-  return {
-    type: SUB_COUNT,
-    payload: count,
-  };
-}
-
 export function updateOrder(product) {
   return {
-    type: UPDATE_ORDER,
-    payload: product,
-  };
-}
-export function deleteOrder(product) {
-  return {
-    type: DELETE_ORDER,
+    type: constants.UPDATE_ORDER,
     payload: product,
   };
 }
 export function increment() {
+    return {
+        type: constants.INCREMENT
+    }
+}
+export function deleteOrder(product) {
   return {
-    type: INCREMENT,
+    type: constants.DELETE_ORDER,
+    payload: product,
+  };
+}
+export function subCount(count) {
+  return {
+    type: constants.SUB_COUNT,
+    payload: count,
   };
 }
 export function decrement() {
-  return {
-    type: DECREMENT,
-  };
+    return {
+        type: constants.DECREMENT
+    }
 }
