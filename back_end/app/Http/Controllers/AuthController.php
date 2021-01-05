@@ -12,14 +12,20 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Crypt;
+use Lcobucci\JWT\Parser;
 
 class AuthController extends Controller
 {
     public function login(){
 
        
-     try{
-         
+    try{
+         $input =request()->all();
+         $validator =Validator::make($input,[
+            'username'=>['required'],
+            'password'=>['required'],
+
+        ]);
         $credentials = [
             'username' => request('username'),
             'password' => request('password')
@@ -30,9 +36,10 @@ class AuthController extends Controller
             $token = $user->createToken($user['username'])->accessToken;
             return response()->json([
                  'token'=>$token, 
+                 $user
             ],200);
         }else{
-            return response()->json('Bad request !',400);
+            return response()->json($validator->errors(),400);
         }
      }catch(Exception $e){
         return response()->json([
@@ -42,10 +49,10 @@ class AuthController extends Controller
      }
     }
     public function logout(Request $request){
-        $request->user()->token()->revoke();
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
+        // Auth::guard('api')->user()->token()->revoke();
+        // return response()->json([
+        //     'message' => 'Successfully logged out'
+        // ]);
     }
     
     
@@ -53,10 +60,13 @@ class AuthController extends Controller
         if (Auth::guard('api')->check()) {
             $user = Auth::guard('api')->user();
         }
-
+        $token = $request->bearerToken();
+        $data = (new Parser())->parse($token)->getClaims();
         return response()->json([
-            "data"=>$user 
+            "data"=>$user,
+            $data
         ],200);
 
     }
+  
 }

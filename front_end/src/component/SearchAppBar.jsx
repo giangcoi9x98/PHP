@@ -9,13 +9,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Home as HomeIcon } from '@material-ui/icons';
-import {
-
-  Link as LogOut,
-  Modal,
-  Card,
-  Box,
-} from '@material-ui/core';
+import { Link as LogOut, Modal, Card, Box } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Cookie from 'js-cookie';
 import SearchIcon from '@material-ui/icons/Search';
@@ -31,7 +25,7 @@ import {
   showSignInModal,
   showSignUpModal,
 } from '../store/actions/modalAction';
-import {addKey} from '../store/actions/countAction'
+import { addKey } from '../store/actions/countAction';
 import SignIn from '../view/SignIn/index';
 import SignUp from '../view/SignUp/index';
 
@@ -100,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SearchAppBar = (props) => {
-  const { isShowSideBar, isAdmin ,key} = props;
+  const { isShowSideBar, isAdmin, key } = props;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -112,11 +106,13 @@ const SearchAppBar = (props) => {
     setIsLogin('Đăng xuất');
   };
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (isLogin === 'Đăng nhập') {
       props.showModal();
     } else {
-      Cookie.remove('token');
+    Cookie.remove('token');
+      const res = await API.auth.logOut();
+      console.log(res);
       localStorage.removeItem('order');
       window.location = '/';
     }
@@ -130,9 +126,9 @@ const SearchAppBar = (props) => {
   };
   const handleSearch = async () => {
     await props.addKey(keyword);
-    props.history.push(`/search/${keyword}?page=1`)
+    props.history.push(`/search/${keyword}?page=1`);
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -196,12 +192,15 @@ const SearchAppBar = (props) => {
       <MenuItem onClick={() => props.history.push('/order/detail')}>
         Thông tin đơn hàng
       </MenuItem>
-   
-        <MenuItem onClick={() =>  handleMenuClose, handleAccount }>Thông tin cá nhân</MenuItem>
-      
-     
-        <MenuItem onClick={()=>handleMenuClose,handleSignUp}> {isLogin}</MenuItem>
-    
+
+      <MenuItem onClick={(() => handleMenuClose, handleAccount)}>
+        Thông tin cá nhân
+      </MenuItem>
+
+      <MenuItem onClick={(() => handleMenuClose, handleSignUp)}>
+        {' '}
+        {isLogin}
+      </MenuItem>
     </Menu>
   );
 
@@ -341,7 +340,7 @@ const SearchAppBar = (props) => {
             <IconButton
               size="medium"
               onClick={handleSearch}
-              style={{ color: '#fff' ,height:'100%',width:'100%'}}
+              style={{ color: '#fff', height: '100%', width: '100%' }}
             >
               <SearchIcon></SearchIcon>
             </IconButton>

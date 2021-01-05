@@ -16,6 +16,20 @@ class ProductController extends Controller
    function getById($id){
        return Product::where('productId',$id)->first();
    }
+   function checkIdNotExits(){
+       $id = request()->input('id');
+       $product = Product::where('productId',$id)->first();
+      try{
+        if($product===null){
+            return response()->json($product,200);
+        }else{
+            return response()->json($product,400);
+        }
+      }catch(Exception $e){
+          return response()->json($e,400);
+      }
+     
+   }
    function create(Request $request){
         try{
             $input=$request->all();

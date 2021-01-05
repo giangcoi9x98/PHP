@@ -31,6 +31,21 @@ export const getProductById = async (id) => {
     };
   }
 };
+export const checkIdNotExists = async ({ id }) => {
+  try {
+    const res = await API.get('/checkId',
+      { id: id });
+    return {
+      status: true,
+      data: res,
+    };
+  } catch (err) {
+    return {
+      status: false,
+      data: err.response.data,
+    };
+  }
+};
 export const deleteProduct = async (id) => {
   try {
     const res = await API.delete(`/product/${id}`);

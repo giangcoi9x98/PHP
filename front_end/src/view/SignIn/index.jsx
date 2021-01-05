@@ -36,6 +36,7 @@ class SignIn extends Component {
       //   login: true,
       // });
       if (data.status) {
+        console.log(data.data);
         Cookie.set('token', data.data.token, { expires: 365 });
         noti.success('Đăng nhập thành công!');
         window.location = '/';

@@ -2,7 +2,14 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import CreateItem from './createItem';
 class createProduct extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      id:window.location.pathname.split('/')[3]
+    }
+  }
   render() {
+  
     return (
       <div
         style={{
@@ -11,7 +18,7 @@ class createProduct extends Component {
           alignItems: 'center',
         }}
       >
-        <CreateItem></CreateItem>
+        <CreateItem id ={this.state.id}></CreateItem>
       </div>
     );
   }

@@ -49,7 +49,9 @@ class OrderController extends Controller
         
        }catch(Exception $e){
            return response()->json(
-               ["Message"=>"Bad Request!"
+               ["Message"=>"Bad Request!",
+               "errors"=>$e
+               
            ],400);
        }
     }

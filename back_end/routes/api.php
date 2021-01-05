@@ -36,6 +36,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
  });
  Route::group(['middleware'=>'admin'],function(){
+   Route::get('warehouse','App\Http\Controller\WarehouseController@getAll')->name('warehouse.api.getAll');
    Route::delete('order/{id}','App\Http\Controllers\OrderController@delete')->name('order.api.delete');
    Route::put('order/{id}','App\Http\Controllers\OrderController@update')->name('order.api.update');
    Route::get('orders/{orderId}','App\Http\Controllers\OrderController@getById')->name('order.api.getById');
@@ -45,5 +46,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
   //  Route::delete('product','App\Http\Controllers\ProductController@delete')->name('product.api.delete'); 
    Route::put('product/{id}','App\Http\Controllers\ProductController@update')->name('product.api.update');
    Route::post('product','App\Http\Controllers\ProductController@create')->name('product.api.create');
+   Route::get('checkId','App\Http\Controllers\ProductController@checkIdNotExits')->name('product.api.checkIdNotExits');
+   Route::post('laptop','App\Http\Controllers\LaptopController@create')->name('laptop.api.create');
    Route::get('account','App\Http\Controllers\AccountController@getAll')->name('account.api.getAll');
  });

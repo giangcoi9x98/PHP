@@ -30,9 +30,9 @@ const useStyles = makeStyles({
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Mã đơn hàng</TableCell>
+            <TableCell align="center">Mã đơn hàng</TableCell>
             <TableCell align="right">Ngày mua</TableCell>
-            <TableCell align="right">Sản phẩm</TableCell>
+            <TableCell align="center">Sản phẩm</TableCell>
             <TableCell align="right">Tổng tiền</TableCell>
             <TableCell align="right">Trạng thái</TableCell>
           </TableRow>
@@ -40,13 +40,13 @@ const useStyles = makeStyles({
         <TableBody>
           {orderList.map((orderList) => (
             <TableRow key={orderList.orderId}>
-              <TableCell component="th" scope="row">
+              <TableCell  align="center" component="th" scope="row">
                 {orderList.orderId}
               </TableCell>
               <TableCell align="right">
                 {moment(orderList.created_at).format('DD/MM/YYYY')}
               </TableCell>
-              <TableCell align="left">{orderList.display}</TableCell>
+              <TableCell align="center">{orderList.display}</TableCell>
               <TableCell align="right">
                 {new Intl.NumberFormat('de-DE', {
                   style: 'currency',

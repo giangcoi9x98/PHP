@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import api from '../../../api';
 import noti from '../../../component/Notificator';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Items() {
+ function Items(props) {
   const classes = useStyles();
   const [product, setProduct] = useState({
     display: '',
@@ -40,7 +41,8 @@ export default function Items() {
     instock: 0,
     specifications: '',
   });
-  const handleCreate = async () => {
+   console.log(props.id);
+  const handleUpdate= async (id) => {
     try {
       const display = product.display;
       const url_key = product.url_key;
@@ -51,7 +53,7 @@ export default function Items() {
       const provider = product.provider;
       const instock = parseInt(product.instock);
       const specifications = product.specifications;
-      const res = await api.product.createProduct({
+      const res = await api.product.updateProduct(id,{
         display,
         url_key,
         description,
@@ -181,10 +183,11 @@ export default function Items() {
       </div>
 
       <div className={classes.button}>
-        <Button onClick={handleCreate} className={classes.textColor}>
+        <Button onClick={()=>handleUpdate(props.id)} className={classes.textColor}>
           Tạo sản phẩm
         </Button>
       </div>
     </div>
   );
 }
+export default withRouter(Items)

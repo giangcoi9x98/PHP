@@ -16,8 +16,10 @@ import CreateProduct from './view/Admin/Product/createProduct';
 import Orders from './view/Admin/Order/index';
 import OrderUpdate from './view/Admin/Order/Detail';
 import Search from './view/Search/index';
-import SearchLayout from './layout/SearchLayout'
-import UpdateProduct from './view/Admin/Product/updateProduct'
+import SearchLayout from './layout/SearchLayout';
+import UpdateProduct from './view/Admin/Product/updateProduct';
+import LapTop from './view/Admin/Laptop/index';
+import Warehouse from './view/Admin/Warehouse/index';
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -61,12 +63,17 @@ export default class App extends Component {
         {
           component: CreateProduct,
           layout: DefaultLayout,
+          path: '/product/create/:id',
+        },
+        {
+          component: LapTop,
+          layout: DefaultLayout,
           path: '/product/create',
         },
         {
           component: UpdateProduct,
           layout: DefaultLayout,
-          path:'/update/:id'
+          path: '/update/:id',
         },
         {
           component: Customer,
@@ -80,13 +87,18 @@ export default class App extends Component {
         },
         {
           component: Search,
-          layout:SearchLayout,
-          path:'/search/:params'
+          layout: SearchLayout,
+          path: '/search/:params',
         },
         {
           component: Detail,
           layout: DefaultLayout,
           path: `/detail/:id`,
+        },
+        {
+          component: Warehouse,
+          layout: DefaultLayout,
+          path:'/warehouse'
         },
         {
           component: NotFound,

@@ -33,22 +33,18 @@ function SignUp() {
   const dispatch = useDispatch();
 
   const handleSignUp = async () => {
-    try {
-      const data = await api.account.signUp({
-        username: username,
-        password: password,
-        email: email,
-        firstname: firstName,
-        lastname: lastName,
-      });
-      console.log('signup', data.data.status);
-      if (data.data.status === 201) {
-        await setIsSignUp(true);
-        noti.success('Tạo mới thành công!');
-      }
-    } catch (err) {
-      noti.error('Tạo mới thất bại');
-      console.log(err);
+    const data = await api.account.signUp({
+      username: username,
+      password: password,
+      email: email,
+      firstname: firstName,
+      lastname: lastName,
+    });
+    if (data.data.status===201) {
+      await setIsSignUp(true);
+      noti.success('Tạo mới thành công!');
+    } else {
+      console.log('sign up fail', data);
     }
   };
 

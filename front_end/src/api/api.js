@@ -3,6 +3,7 @@ import Cookie from 'js-cookie';
 const API = axios.create({
   baseURL: 'http://127.0.0.1:8000/api',
 });
+
 API.interceptors.request.use(
   (req) => {
     req.headers.authorization = `Bearer ${Cookie.get('token')}`;
@@ -19,6 +20,7 @@ API.interceptors.response.use(
   },
   (err) => {
     console.log(err);
+    return Promise.reject(err);
   },
 );
 export default API;

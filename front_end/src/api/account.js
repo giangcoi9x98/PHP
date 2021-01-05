@@ -19,9 +19,10 @@ export const signUp = async ({
       status: true,
       data: res,
     };
-  } catch (err) {
+  } catch (error) {
     return {
       status: false,
+      data:error.response.data,
       masage: 'sign up failed',
     };
   }

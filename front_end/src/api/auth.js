@@ -17,3 +17,16 @@ export const logIn = async ({ username, password }) => {
     };
   }
 };
+export const logOut = async () => {
+  try {
+    const res = API.delete('/logout');
+    return {
+      status: true,
+      data:(await res).data
+    }
+  } catch (e) {
+    return {
+      status:false
+    }
+  }
+}

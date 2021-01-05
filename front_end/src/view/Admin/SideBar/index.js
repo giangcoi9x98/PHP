@@ -13,6 +13,7 @@ import {
   ListItem,
   Icon,
 } from '@material-ui/core';
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import {
   AlertCircle as AlertCircleIcon,
@@ -126,6 +127,19 @@ class index extends Component {
               <Typography style={{ paddingLeft: 5 }}>Đơn hàng</Typography>
             </Button>
             <Button
+              onClick={()=>this.props.history.push('/warehouse')}
+              style={{
+                width: '100%',
+                textTransform: 'none',
+                justifyContent: 'left',
+                padding: '10px 8px',
+                color: 'GrayText',
+              }}
+            >
+              <HomeWorkIcon size={20}></HomeWorkIcon>
+              <Typography style={{ paddingLeft: 5 }}>Kho hàng</Typography>
+            </Button>
+            <Button
               onClick={()=>this.props.history.push('/not-found')}
               style={{
                 width: '100%',
@@ -135,6 +149,7 @@ class index extends Component {
                 color: 'GrayText',
               }}
             >
+   
               <AlertCircleIcon size={20}></AlertCircleIcon>
               <Typography style={{ paddingLeft: 5 }}>Lỗi</Typography>
             </Button>

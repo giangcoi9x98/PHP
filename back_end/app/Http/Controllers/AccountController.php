@@ -13,14 +13,16 @@ class AccountController extends Controller
         return User::where('isDelete',0)->get();
     }
     function create(Request $request){
-      try{
         $input =$request->all();
         $validator =Validator::make($input,[
             'username'=>['required','unique:users'],
             'email'=>"",
             'password'=>['required'],
+            
 
         ]);
+      try{
+      
         $input['password']=bcrypt($input['password']);
         $account =User::create($input);
         return response()->json($account,201);
@@ -31,22 +33,31 @@ class AccountController extends Controller
  
 
    }
-   function update(Request $request){
+   function update($id,Request $request){
     try{
         $user=Auth::guard('api')->user();
         $pass='';
         if($request->has('password')){
             $pass=bcrypt($request->input('password'));
+            User::where('username',$id)
+            ->update(['firstname'=>$request->input('firstname'),
+                        'lastname'=>$request->input('lastname'),
+                        'email'=>$request->input('email'),
+                        'phone'=>$request->input('phone'),
+                        'address'=>$request->input('address'),
+                        'password'=>$pass,]);
+        }else{
+            User::where('username',$id)
+            ->update(['firstname'=>$request->input('firstname'),
+                        'lastname'=>$request->input('lastname'),
+                        'email'=>$request->input('email'),
+                        'phone'=>$request->input('phone'),
+                        'address'=>$request->input('address'),
+                        
+    
+            ]);
         }
-        User::where('username',$user['username'])
-        ->update(['firstname'=>$request->input('firstname'),
-                    'lastname'=>$request->input('lastname'),
-                    'email'=>$request->input('email'),
-                    'phone'=>$request->input('phone'),
-                    'address'=>$request->input('address'),
-                    'password'=>$pass,
-
-        ]);
+      
 
         return response()->json([
             'message'=>"Success !",         

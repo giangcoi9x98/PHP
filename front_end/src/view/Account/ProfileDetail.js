@@ -63,7 +63,7 @@ function ProfileDetails(props) {
       console.log(e);
     }
   };
-
+  console.log(user);
   return (
     <form autoComplete="off" noValidate className={clsx(classes.root)}>
       <Card>
