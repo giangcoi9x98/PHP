@@ -1,0 +1,2 @@
+lam comment 
+voi cac trang linh tinh con lai
